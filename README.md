@@ -50,9 +50,10 @@ Experiments on **IBM Eagle** (127-qubit) and **Rigetti Ankaa-3** (82-qubit), tot
 ---
 
 ## Repository layout
+
 QFTT-WESH-1/
 ├── paper/
-│   ├── main.tex                 # LaTeX source (targeting CQG)
+│   ├── main.tex                # LaTeX source (targeting CQG)
 │   └── QFTT_WESH_core.pdf      # Compiled paper
 ├── figures/
 │   ├── Picture1.png  …  Picture13.png
