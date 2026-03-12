@@ -67,6 +67,8 @@ QFTT-WESH-1/
 │   └── 3.9/                     # Cross-platform — Rigetti Ankaa-3
 └── README.md
 
+```
+
 ### Experiments
 
 | Folder | Figure(s) | Description |
