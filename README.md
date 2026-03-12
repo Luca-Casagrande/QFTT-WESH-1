@@ -1,4 +1,4 @@
-# QFTT-WESH
+# QFTT-WESH-1
 
 **Core paper and experimental data** for the framework:
 
@@ -51,21 +51,21 @@ Experiments on **IBM Eagle** (127-qubit) and **Rigetti Ankaa-3** (82-qubit), tot
 
 ## Repository layout
 
-QFTT-WESH-1/
-├── paper/
-│   ├── main.tex                # LaTeX source (targeting CQG)
-│   └── QFTT_WESH_core.pdf      # Compiled paper
-├── figures/
-│   ├── Picture1.png  …  Picture13.png
-├── experiments/
-│   ├── 3.1/                     # WESH vs standard decoherence (CPU)
-│   ├── 3.2/                     # Collective stability scaling
-│   ├── 3.3-3.4/                 # Collision model vs local baseline
-│   ├── 3.5/                     # Angular law — IBM Eagle
-│   ├── 3.6/                     # Fake-GHZ gate-matched control
-│   ├── 3.7-3.8/                 # GHZ vs PRODUCT distributions (21σ)
-│   └── 3.9/                     # Cross-platform — Rigetti Ankaa-3
-└── README.md
+    QFTT-WESH-1/
+    ├── paper/
+    │   ├── main.tex                 # LaTeX source (targeting CQG)
+    │   └── QFTT_WESH_core.pdf      # Compiled paper
+    ├── figures/
+    │   ├── Picture1.png  …  Picture13.png
+    ├── experiments/
+    │   ├── 3.1/                     # WESH vs standard decoherence (CPU)
+    │   ├── 3.2/                     # Collective stability scaling
+    │   ├── 3.3-3.4/                 # Collision model vs local baseline
+    │   ├── 3.5/                     # Angular law — IBM Eagle
+    │   ├── 3.6/                     # Fake-GHZ gate-matched control
+    │   ├── 3.7-3.8/                 # GHZ vs PRODUCT distributions (21σ)
+    │   └── 3.9/                     # Cross-platform — Rigetti Ankaa-3
+    └── README.md
 
 ---
 
@@ -86,11 +86,9 @@ Each folder is self-contained: running the analysis script regenerates the corre
 ---
 
 ## Reproducing figures
-```bash
-cd experiments/3.5/
-python analyze_3.5_angular_scaling.py
 
----
+    cd experiments/3.5/
+    python analyze_3.5_angular_scaling.py
 
 Requires Python 3.x with `numpy`, `pandas`, `matplotlib`, `scipy`.
 
@@ -103,13 +101,12 @@ This work was developed with the assistance of artificial intelligence tools in 
 ---
 
 ## Citation
-```bibtex
-@article{Casagrande2026QFTT,
-  author  = {Casagrande, Luca},
-  title   = {Quantum Field Theory of Time: The Weak Entanglement Symmetry Hypothesis},
-  year    = {2026}
-}
-```
+
+    @article{Casagrande2026QFTT,
+      author  = {Casagrande, Luca},
+      title   = {Quantum Field Theory of Time: The Weak Entanglement Symmetry Hypothesis},
+      year    = {2026}
+    }
 
 ---
 
