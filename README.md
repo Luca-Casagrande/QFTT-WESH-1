@@ -1,4 +1,4 @@
-# QFTT-WESH-1
+# QFTT-WESH
 
 **Core paper and experimental data** for the framework:
 
