@@ -4,7 +4,7 @@
 
 > **"Quantum Field Theory of Time — The Weak Entanglement Symmetry Hypothesis" — L. Casagrande (2026).**
 
-[Read the paper](paper/QFTT_WESH_core.pdf) · [Browse experiments](experiments/) · [Reproduce Fig. 3.5](experiments/3.5/)
+[Read the paper](paper/QFTT_WESH_1.pdf) · [Browse experiments](experiments/) · [Reproduce Fig. 3.5](experiments/3.5/)
 
 This work addresses the frozen-time problem of canonical quantum gravity. Physical time is promoted to a local quantum field operator T̂(x), subject to superposition and objective collapse, with dynamics constructed from first principles. An endogenously dissipative master equation in an auxiliary, non-observable label *s* generates physical time through
 
