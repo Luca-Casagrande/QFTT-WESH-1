@@ -67,9 +67,9 @@ QFTT-WESH-1/
 │   └── 3.9/                     # Cross-platform — Rigetti Ankaa-3
 └── README.md
 
-```
+---
 
-### Experiments
+## Experiments
 
 | Folder | Figure(s) | Description |
 |:-------|:----------|:------------|
@@ -89,7 +89,8 @@ Each folder is self-contained: running the analysis script regenerates the corre
 ```bash
 cd experiments/3.5/
 python analyze_3.5_angular_scaling.py
-```
+
+---
 
 Requires Python 3.x with `numpy`, `pandas`, `matplotlib`, `scipy`.
 
