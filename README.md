@@ -96,7 +96,7 @@ Requires Python 3.x with `numpy`, `pandas`, `matplotlib`, `scipy`.
 
 ## Acknowledgments
 
-This work was developed with the assistance of artificial intelligence tools in a cross-inferencing multi-AI workflow. The primary tools employed were those of OpenAI, Anthropic, and Google. The conceptual framework, methodology, research direction, and verification of every output remained with the author.
+While the conceptual framework, methodology, and research direction remained with the author throughout, the work also relied on artificial intelligence tools in a cross-inferencing multi-AI workflow. The primary tools employed were those of OpenAI, Anthropic, and Google.
 
 ---
 
