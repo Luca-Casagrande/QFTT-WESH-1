@@ -10,7 +10,7 @@ This work addresses the frozen-time problem of canonical quantum gravity. Physic
 
     dt/ds = Γ[ρ] ≥ 0.
 
-Complete positivity, finite-range locality, CPT symmetry, and a pre-geometric WESH–Noether conservation principle single out a unique GKSL structure with:
+Complete positivity, CPT symmetry at the unraveling level, a pre-geometric WESH–Noether conservation principle, collective N² stability, and finite-range pre-geometric locality single out a unique GKSL structure with:
 
 - a **quadratic local dissipator** D[T̂²(x)],
 - a **bilocal difference channel** L_xy = T̂²(x) − T̂²(y), gated by a Rényi-2 entanglement functional,
@@ -36,7 +36,7 @@ Both predictions have been tested through classical simulations and quantum hard
 
 ### Numerical evidence
 
-Pre-asymptotic collision model simulations (N = 2–16) yield an effective scaling γ(N) ∝ N^{−1.804}, consistent with an approach towards the predicted N^{−2} behaviour. A matched local baseline returns α = −1.00, validating the sensitivity of the extraction method.
+Pre-asymptotic collision-model simulations (N = 2–16), used as a reduced surrogate for the collective-stability sector of the framework, yield an effective scaling γ(N) ∝ N^{−1.804}, consistent with an approach towards the predicted N^{−2} behaviour. A matched local baseline returns α = −1.00, validating the sensitivity of the extraction method.
 
 ### Hardware evidence (IBM Eagle + Rigetti Ankaa-3)
 
@@ -112,4 +112,4 @@ This work was developed with the assistance of artificial intelligence tools in 
 
 ## License
 
-This work is released under the [MIT License](https://opensource.org/licenses/MIT).
+Code in this repository is released under the [MIT License](https://opensource.org/licenses/MIT). Paper, figures, and datasets are released under the terms specified in the corresponding Zenodo record.
