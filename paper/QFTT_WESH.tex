@@ -1,0 +1,2303 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsthm}
+\newtheorem{example}{Example}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{physics}
+\usepackage{times}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{chngcntr}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{empheq}
+\usepackage{hyperref}
+\hypersetup{
+    breaklinks=true,
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black
+}
+\counterwithin{figure}{section}
+
+\DeclareMathOperator{\sdet}{sdet}
+\newcommand{\Thm}{\ref}
+
+% Define 'note' environment
+\newenvironment{note}{\begin{quote}\itshape}{\end{quote}}
+\newcommand{\Var}{\operatorname{Var}}
+\usepackage{newunicodechar}
+\newunicodechar{̂}{\^{} }
+\usepackage{float}
+% tcolorbox removed — all boxes converted to prose/remarks
+\usepackage{tabularx,booktabs,array}
+\usepackage{afterpage}
+\usepackage{enumitem}
+
+% --- Riferimenti compatti e consistenti
+\newcommand{\Eq}[1]{Eq.~\eqref{#1}}
+\newcommand{\Eqs}[1]{Eqs.~\eqref{#1}}
+\newcommand{\Fig}[1]{Fig.~\ref{#1}}
+\newcommand{\Sec}[1]{Sec.~\ref{#1}}
+\newcommand{\App}[1]{App.~\ref{#1}}
+
+\newcommand{\Gtime}{\Gamma[\Psi]}
+\newcommand{\Gdec}{\Gamma_{\mathrm{dec}}}
+\newcommand{\Gspec}{\Gamma_{\mathrm{WESH}}}
+
+% Theorem environments
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{axiom}{Axiom}
+\newtheorem{principle}{Principle}[section]
+
+
+% Commands for convenience
+\renewcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\That}{\hat{T}}
+\newcommand{\eff}{\mathrm{eff}}
+\newcommand{\tot}{\mathrm{tot}}
+\newcommand{\loc}{\mathrm{loc}}
+\newcommand{\corr}{\mathrm{corr}}
+\newcommand{\coh}{\mathrm{coh}}
+\newcommand{\Eig}{\mathrm{Eig}}
+\newcommand{\thr}{\mathrm{thr}}
+\newcommand{\refs}{\mathrm{ref}}
+
+\newcommand{\Ttil}{\tilde T}      % dimensionless time field: \Ttil = \hat T / \taus
+\newcommand{\Lxy}{L_{xy}}         % bilocal Lindblad operator (dimensionless)
+% Correlation 4-volume (coarse-graining scale, O(\xi^4)):
+\newcommand{\Vxi}{V_\xi}          % with \Vxi \sim \xi^4
+% Normalized 4D measures:
+\newcommand{\intx}{\int \frac{d^4x}{\Vxi}}
+\newcommand{\intxy}{\iint \frac{d^4x\,d^4y}{\Vxi^2}}
+
+\newcounter{boxinternal}
+\setcounter{boxinternal}{0}
+
+\numberwithin{equation}{section}
+
+% Eigentime notation (consistency)
+\newcommand{\NEig}{\mathcal{N}_{\mathrm{Eig}}}
+\newcommand{\lambdaEig}{\lambda_{\mathrm{Eig}}}
+
+\usepackage{array,tabularx,booktabs,caption,ragged2e}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\captionsetup[table]{font=small,labelfont=bf,justification=raggedright,singlelinecheck=false}
+
+\usepackage{enumitem}  
+\makeatletter
+\def\thm@space@setup{
+  \thm@preskip=0.9cm \thm@postskip=0.9cm}
+\makeatother
+
+\renewenvironment{abstract}{
+  \vspace*{-3cm}  
+  \begin{center}
+  \Large\textbf{Abstract} 
+  \end{center}
+  \vspace{0.5cm} 
+  \noindent\ignorespaces  
+}{\par\vspace{1cm}}  
+
+\newcommand{\Iloc}{I_{\text{loc}}}
+\newcommand{\Ibi}{I_{\text{bi}}}
+\begin{document}
+
+\begin{titlepage}
+{\centering 
+\vspace*{2cm}
+{\LARGE\bfseries
+QUANTUM FIELD THEORY OF TIME\\[0.5cm]
+}
+\vspace{1cm}
+{\Large
+The Weak Entanglement Symmetry Hypothesis\\[1cm]
+}
+\vspace{1cm}
+
+{\large
+Luca Casagrande\\[0.5cm]
+}
+\vfill
+{\normalsize
+March 2026\\[0.5cm]
+}
+}
+\end{titlepage}
+
+\vspace{0.3cm}
+\begin{abstract}
+The frozen-time problem of canonical quantum gravity reflects a basic tension:
+the Wheeler--DeWitt constraint removes fundamental evolution, while ordinary
+quantum theory presupposes an external time parameter. We propose
+QFTT--WESH, a dissipative completion of the Wheeler--DeWitt sector in which
+physical time is promoted to a local quantum field and emerges through
+stochastic eigentime events generated within a closed quantum universe.
+The WESH master equation is selected, within a finite-range Markov regime,
+by consistency conditions of complete positivity, symmetry, locality, and
+collective stability. The framework yields two falsifiable signatures:
+quadratic enhancement of coherence time with system size and a
+state-dependent $\cos^2\theta$ modulation of the parity decay rate. We test
+these predictions through collision-model simulations and quantum-hardware
+experiments, finding behavior consistent with both signatures. QFTT--WESH
+therefore provides a closed-system route from Wheeler--DeWitt stasis to
+emergent physical time, and a concrete framework in which temporal order is
+generated from within the quantum state rather than imposed from outside.
+\end{abstract}
+
+\clearpage
+
+\section{QFTT Framework \& WESH}
+\label{sec:qftt-framework}
+
+\subsection{Problem of time and quantum gravity strategy}
+\vspace{0.3cm}
+
+Most approaches to quantum gravity (loop quantum gravity, Ashtekar et al., 1995; string
+theory; causal dynamical triangulations) either quantize an already
+geometric spacetime or work semiclassically on a fixed background, leaving
+the operational status of time itself unresolved. Alternative proposals such
+as the Page--Wootters mechanism (Page \& Wootters, 1983) tie the emergence
+of time to entanglement between system and clock but do not derive
+dissipative dynamics or metric structure. 
+
+\noindent In recent years, the two strands just mentioned, the emergence of
+classical geometry and the emergence of relational time, have both
+sharpened, and in some cases begun to move closer to one another. On the
+collapse side, Gaona-Reyes et al.\ (2024) show that
+spontaneous-collapse dynamics can drive a superposition of cosmological
+geometries toward a single classical universe. On the decoherence side,
+Anastopoulos \& Hu (2022) provide a GR/QFT-grounded
+overview of gravitational decoherence, while Arzano, D'Esposito, \&
+Gubitosi (2023) derive a Lindblad-like
+decohering evolution directly from noncommutative quantum spacetime. On the
+relational-time side, Calcinari \& Gielen (2025)
+extend the Page--Wootters formalism to group field theory, bringing
+relational clock constructions into a non-perturbative quantum-gravity
+setting. What remains absent from these lines of work is a single framework
+that simultaneously generates dissipative dynamics, produces physical time
+as output, and connects that bootstrap to falsifiable signatures without
+importing an external clock or environment. This is the gap addressed by
+the present work.
+
+\noindent Specifically, we promote physical time to a local
+quantum field operator $\hat T(x)$ on an extended kinematical Hilbert space, evolve
+the state by a completely positive WESH master equation in an auxiliary
+ordering parameter $s$, and let physical time emerge
+from eigentime events and entanglement-weighted dissipative flow. A broader comparison with adjacent frameworks is given in
+App.~B.3.
+
+\subsection{Time field and canonical structure}
+
+The elevation of physical time to a field operator follows from the
+canonical structure of constrained systems.
+
+\noindent In the minisuperspace approximation, the Wheeler--DeWitt constraint
+decomposes as
+\begin{equation}
+\hat{H}_{\text{tot}}=\hat{H}_{\text{universe}}+\hat{P}_T \approx 0, \qquad
+[\hat{T},\hat{P}_T]=i\hbar,
+\label{eq:minisspace-split}
+\end{equation}
+where $\hat{P}_T$ is the momentum conjugate to a global time variable. The
+constraint does not forbid dynamics; it enforces energy balance between the
+time sector and the remaining degrees of freedom. Passing to the local
+field-theoretic extension, we postulate canonical commutation relations on an arbitrary
+kinematical slice $\Sigma$ (since the algebra is independent of the choice of coordinates prior to metric emergence):
+\begin{equation}
+[\hat{T}(\mathbf{x}),\hat{\Pi}_T(\mathbf{y})]
+= i\hbar\,\delta^{(3)}_{\Sigma}(\mathbf{x}-\mathbf{y}),\quad
+[\hat{T},\hat{T}]=[\hat{\Pi}_T,\hat{\Pi}_T]=0.
+\label{eq:canonical-commutators}
+\end{equation}
+On the constraint surface, the conjugate momentum is identified with (minus) the local energy density,
+\begin{equation}
+\hat{\Pi}_T(\mathbf{x})=-\hat{\mathcal{H}}(\mathbf{x}),\qquad
+[\hat{\mathcal{H}}(\mathbf{x}),\hat{T}(\mathbf{y})]
+= i\hbar\,\delta^{(3)}_{\Sigma}(\mathbf{x}-\mathbf{y}),
+\label{eq:conjugacy}
+\end{equation}
+so that the local Hamiltonian constraint
+$\hat{\mathcal{H}}(x)+\hat{\Pi}_T(x)\approx 0$ becomes the generator of
+local time translations. This identification transforms the Wheeler--DeWitt
+``frozen time'' into a dynamical equilibrium condition: the constraint
+balances the quantum time frame against the local energy content.
+
+\noindent The spectral decomposition
+\begin{equation}
+\hat{T}(x)\,|t\rangle_x = t\,|t\rangle_x, \quad
+\int_{-\infty}^{+\infty}\!dt\; |t\rangle_x\,{}_x\langle t| = \mathbb{1}_x
+\label{eq:decomposition}
+\end{equation}
+allows one to expand the global state as a superposition over temporal
+configurations:
+\begin{equation}
+|\Psi\rangle = \!\int\!\mathcal{D}t(x)\,\mathcal{D}\phi\;
+\Psi[t(x),\phi]\;\bigotimes_x |t(x)\rangle_x\!\otimes|\phi\rangle.
+\label{eq:expansion}
+\end{equation}
+In the WDW sector, temporal indeterminacy is therefore physical, not
+artifactual: the universe exists in a quantum superposition of chronologies.
+Resolving this superposition requires a dynamical mechanism that cannot be
+unitary in the conventional sense, there is no external $t$ to generate a
+Schr\"odinger flow, but must be dissipative. The structure of this dissipation is selected by the
+consistency conditions developed below, beginning with symmetry
+constraints.
+
+\vspace{0.5cm}
+\subsection{The Weak Entanglement Symmetry Hypothesis}
+\vspace{0.3cm}
+
+Before developing the first of these symmetry constraints, we specify
+what WESH means and, in particular, in what sense the symmetry it
+invokes is ``weak''. In this framework, ``weak'' does not refer to a small
+coupling, but to the level at which Lorentz-type symmetry is enforced.
+Lorentz invariance is not required pointwise on each individual collapse
+trajectory. It is recovered only in expectation over the Poissonian ensemble
+of eigentime events. Entanglement correlations $C(\Psi;x,y)$ distribute the
+effect of a local collapse across correlated regions, so that apparent local
+violations are globally compensated after averaging over the process. Global
+conserved charges obey a stronger, operator-level constraint. The symmetry
+relevant here is therefore a property of the process measure, not of each
+individual realization. In the next subsection, this distinction becomes
+operational: WESH--Noether imposes a generator-level conservation law,
+providing the first structural constraint on the admissible form of the
+generator.
+\vspace{0.5cm}
+
+\subsection{WESH--Noether conservation}
+\label{sec:wesh-noether}
+
+\vspace{0.3cm}
+
+In standard field theory, Noether's theorem guarantees that every continuous symmetry of the action corresponds to a conserved quantity. The WESH framework operates under non-unitary, dissipative dynamics where the classical action principle does not apply directly. Nevertheless, the entanglement structure of the WESH generator supports an analogous conservation law: a multi-local symmetry of the entangled state (a transformation applied simultaneously to multiple subsystems that leaves the joint state invariant) implies the existence of a conserved charge whose expectation value remains constant along the auxiliary flow. This conservation holds in expectation over the stochastic ensemble, so that while individual eigentime events may redistribute charge locally, the system as a whole preserves it exactly. We call this principle \emph{WESH--Noether conservation}.
+
+In the pre-geometric regime there is no background metric: the constraint 
+$\hat{H}_{\mathrm{tot}}|\Psi\rangle = 0$ removes the generator of time 
+translations, leaving only algebraic structure. In a closed universe 
+there is no external bath to absorb conserved charges, so the generator 
+must preserve them exactly:
+\begin{equation}
+\mathcal{L}^\dagger[\hat{Q}_a] = 0 \quad \forall\, a.
+\label{eq:wesh-noether-constraint}
+\end{equation}
+This \emph{WESH--Noether conservation} is pre-geometric: it is formulated
+in the auxiliary parameter $s$, before physical time or spacetime have
+emerged, and guarantees path independence in state space, so that
+$\langle\hat{Q}_a\rangle$ does not depend on the particular trajectory
+$\rho(s)$.
+
+\paragraph{Algebraic mechanism.}
+The conservation law~\eqref{eq:wesh-noether-constraint} translates into 
+commutant conditions on the generator. For Hermitian Lindblad operators 
+$L$, the adjoint dissipator acts on observables as
+\begin{equation}
+\mathcal{D}^\dagger_L[\hat{Q}] = -\tfrac{1}{2}[L,[L,\hat{Q}]].
+\label{eq:double-commutator}
+\end{equation}
+Under the WESH structure ($\nu>0$, $\gamma(x,y)\,C(\Psi;x,y)\ge 0$, Hermitian 
+jumps) and mild spectral regularity (Appendix~D, Prop.~D.2), 
+$\mathcal{L}^\dagger[\hat{Q}_a] = 0$ is equivalent to
+\begin{equation}
+\begin{split}
+&[H_{\mathrm{eff}}, \hat{Q}_a] = 0, \qquad 
+[\hat{T}^2(x), \hat{Q}_a] = 0, \\
+&[L_{xy}, \hat{Q}_a] = 0 \quad \text{for all $(x,y)$ with nonzero rate}.
+\end{split}
+\label{eq:commutant-conditions}
+\end{equation}
+The double commutator~\eqref{eq:double-commutator} is the algebraic engine 
+of conservation: it vanishes precisely when each Lindblad channel commutes 
+with the charge.
+
+\paragraph{Difference structure.}
+For the bilocal channel, the commutant condition together with the requirement 
+of pairwise-balanced redistribution (zero net injection) selects the difference form,
+\begin{equation}
+L_{xy} = \hat{T}^2(x) - \hat{T}^2(y).
+\label{eq:difference_Lxy}
+\end{equation}
+This structure redistributes coherence between $N_\xi$-connected points 
+without injecting or removing total charge: any increase at $x$ is 
+compensated by a decrease at $y$. The local channel 
+$\mathcal{D}[\hat{T}^2(x)]$ satisfies the same commutant provided the 
+time field is \emph{T-neutral},
+\begin{equation}
+[\hat{T}(x), \hat{Q}_{\mathrm{tot}}] = 0 \quad \forall\, x.
+\label{eq:T-neutrality}
+\end{equation}
+Within the stated consistency requirements, T-neutrality is the 
+uniquely admissible condition compatible with path independence, 
+universal time emergence, and no-signaling (Appendix~D, Remark~D.4).
+
+\begin{theorem}[WESH--Noether]
+\label{thm:wesh-noether}
+Let $\mathcal{L}$ be a GKSL generator with Hermitian jump operators 
+$L_\alpha \in \{\hat{T}^2(x),\, L_{xy} = \hat{T}^2(x) - \hat{T}^2(y)\}$ 
+and let $\hat{Q}_a$ be any global charge. Then the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $\mathcal{L}^\dagger[\hat{Q}_a] = 0$ \quad (generator-level conservation);
+\item $[H_{\mathrm{eff}}, \hat{Q}_a] = 0$ and $[L_\alpha, \hat{Q}_a] = 0$ 
+for all $\alpha$ \quad (commutant conditions);
+\item for every trajectory $\rho(s)$ one has
+\begin{equation}
+\frac{d}{ds}\langle\hat{Q}_a\rangle_{\rho(s)} 
+= \Tr\bigl(\mathcal{L}^\dagger[\hat{Q}_a]\,\rho(s)\bigr) = 0,
+\label{eq:charge-conservation}
+\end{equation}
+\quad (path independence in $s$).
+\end{enumerate}
+Under T-neutrality~\eqref{eq:T-neutrality}, the local and bilocal WESH
+channels satisfy the commutant conditions in \emph{(ii)} for every conserved
+charge; together with $[H_{\mathrm{eff}}, \hat{Q}_a]=0$, this yields all
+three conditions.
+\end{theorem}
+
+\noindent This theorem extends Noether's result to dissipative quantum dynamics:
+constants of motion are identified with fixed points of the Heisenberg
+semigroup generated by $\mathcal L^\dagger$. The proof uses the 
+double-commutator identity~\eqref{eq:double-commutator} together with
+mild spectral regularity assumptions.
+
+\paragraph{Functional role in the present framework.}
+In the remainder of this section, WESH--Noether is used as a selection 
+principle: together with CPT symmetry and collective stability, it selects 
+the admissible form of the dissipative generator within the fixed-regime 
+assumptions of the framework, and thereby singles out the quadratic WESH 
+structure employed in Eq.~\eqref{eq:wesh-master}. The same 
+constraint plays a second role in the infrared analysis. There, its 
+pre-geometric character becomes essential: the WESH flow admits a unique 
+fixed point that minimizes a Lyapunov functional subject to the Noether 
+constraints, and at this fixed point the gradients of the time field and of the entanglement potential align, $\partial_\mu\tau = k\,\partial_\mu\Phi$ (with $\tau:=\langle\hat T\rangle_\rho$).
+The emergent Einstein--Hilbert dynamics and hidden-sector cancellation 
+follow from this aligned fixed point at which gradient alignment yields emergent geometry. Both applications derive from the same algebraic condition; only the 
+physical interpretation shifts from constraint selection to geometric 
+emergence.
+
+\vspace{0.3cm}
+
+\noindent The complete operator-level derivation, including spectral regularity 
+conditions and the bridge to alignment, is developed in Appendix~D.
+
+\vspace{0.8cm}
+
+\subsection{From Wheeler--DeWitt to WESH: constraint closure}
+\label{sec:constraint-closure}
+
+\vspace{0.3cm}
+
+The question of which dissipative completion is admissible in the Wheeler--DeWitt sector arises naturally at this stage. In a closed universe no external bath can absorb conserved charges, no external clock can parametrize collapse, and no background metric can define locality in advance. Any non-unitary extension must therefore arise internally, as an effective redistribution of information among relational degrees of freedom within the WDW kinematics, where no net charge or energy can be injected. We seek the most general GKSL-type extension compatible with the requirements collected in Table~\ref{tab:constraint-ledger}.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{p{3.5cm}|p{4.5cm}|p{4.6cm}}
+\toprule
+\textbf{Requirement} & \textbf{Excludes} & \textbf{Selects} \\
+\midrule
+CPT symmetry \newline (unraveling level) + \newline collective stability \newline ($\tau_{\mathrm{coh}} \propto N^2$) & odd local jumps \newline ($+t/-t$ asymmetry at \newline single-event level); \newline higher even monomials ($n > 1$) & quadratic local channel $\mathcal{D}[\hat T^2(x)]$ \\
+\hline
+WESH + \newline closed-universe \newline conservation & entanglement-blind channels; \newline unbalanced bilocal redistribution & bilocal difference form \newline $L_{xy} = \hat T^2(x) - \hat T^2(y)$; \newline entanglement gate $C(\Psi;x,y)$ \\
+\hline
+Pre-geometric locality \newline + bounded collapse power & metric-dependent support; \newline unbounded total rate & finite-range kernel $K_\xi\,\mathbb{1}_{N_\xi}$; \newline normalization $\gamma \propto N^{-2}$ \\
+\bottomrule
+\end{tabular}
+\caption{Constraint ledger for the WESH generator. Three groups of requirements converge to select a single admissible structural class.}
+\label{tab:constraint-ledger}
+\end{table}
+
+\noindent The derivation is eliminative: each constraint removes a class of alternatives, and their intersection leaves a single admissible generator. We now trace this closure step by step.
+
+\paragraph{Local channel: CPT symmetry and collective stability.}
+Under time reversal $\hat T \to -\hat T$, the GKSL dissipator
+$\mathcal{D}[L]$ is algebraically invariant under $L \to -L$. At the
+ensemble level of the master equation, CPT-evenness alone therefore does
+not distinguish even from odd monomials. The physical elementary objects
+of the QFTT framework are, however, the individual eigentime collapses of
+the stochastic unraveling. An odd local jump, for instance
+$L_x = \hat T(x)$, would localize onto a signed temporal direction and
+would therefore distinguish $+t$ from $-t$ at the single-event level.
+That would hardcode temporal orientation into the fundamental events
+themselves. In the pre-geometric regime, the arrow of time must instead
+arise collectively through the bootstrap law $dt/ds = \Gamma > 0$. For
+this reason, CPT symmetry is imposed at the unraveling level, which
+restricts the admissible local jump set to even functions of the field,
+$L_x = F(\hat T(x))$ with $F(z)=F(-z)$. Writing
+$F(z) = \sum_{m \ge 1} a_{2m} z^{2m}$, collective stability then provides
+a purely mathematical selection within the even class. Anticipating the pairwise normalization derived below, under $\gamma \propto N^{-2}$ a monomial $F(\hat T) \sim \hat T^{2n}$ induces coherence scaling $\tau_{\mathrm{coh}}(N) \propto N^{2n}$:
+\begin{equation}
+\text{If } L_x \sim \hat{T}^{2n} \quad\Rightarrow\quad
+\tau_{\mathrm{coh}}(N)\propto N^{2n}.
+\label{eq:scaling-condition}
+\end{equation}
+The structural requirement $\tau_{\mathrm{coh}}(N) \propto N^2$ therefore fixes $n = 1$. The admissible local normal form is $\mathcal{D}[\hat T^2(x)]$. Independently, a Wilsonian IR argument reaches the same conclusion: among CPT-even local monomials, the lowest-dimension term dominates at long wavelengths, while higher even powers are irrelevant deformations. The convergence of two independent selection mechanisms, structural (bootstrap closure) and effective (IR dominance), strengthens confidence in the uniqueness of the quadratic channel.
+
+Beyond scaling, the selection $n = 1$ rests on a deeper algebraic argument that we condense here; its full development belongs to a forthcoming paper on Quantum Self-Interacting Poisson Structures (QSIPS).
+
+\begin{remark}[Algebraic root of quadratic uniqueness]
+\label{rem:algebraic-T2}
+For any $n \ge 1$, the bilocal jump operator factorizes as
+\[
+\hat T^{2n}(x) - \hat T^{2n}(y) = \bigl[\hat T^2(x) - \hat T^2(y)\bigr]\cdot P_{n-1}\bigl(\hat T^2(x),\, \hat T^2(y)\bigr),
+\]
+where $P_{n-1}$ is the symmetric polynomial $P_0 = 1$, $P_1 = \hat T^2(x) + \hat T^2(y)$, etc. (the identity is elementary and holds for any commuting self-adjoint operators). For $n = 1$ the jump is \emph{irreducible}: pure mismatch with no field-dependent prefactor. For $n \ge 2$ it is \emph{reducible}, and the polynomial $P_{n-1}$ contaminates every structure built on $L_{xy}$. Setting $u(x) := \langle\hat T^2(x)\rangle_{\rho^\star}$ for the fixed-point expectation:
+\begin{enumerate}[label=(\alph*),leftmargin=1.5cm,itemsep=0.15em]
+\item \emph{Lyapunov obstruction.} The bilocal part of the WESH Lyapunov functional $\mathcal{M}$ becomes a weighted energy with effective stiffness $\propto u^{2(n-1)}$, which degenerates where $u \to 0$; the Dirichlet form (constant stiffness, strict convexity, unique minimizer) is lost.
+\item \emph{Field equation obstruction.} The infrared Euler--Lagrange equation becomes quasilinear (field-dependent principal part) rather than semilinear; degenerate ellipticity at $u \to 0$ spoils uniqueness and regularity of stationary solutions.
+\item \emph{Hidden-sector obstruction.} The residual stress tensor after cancellation at the fixed point carries a coefficient $(4n{-}2)\,\delta\tau/\tau_\star$, growing with $n$ and degrading the universality of the emergent Einstein equation.
+\end{enumerate}
+All three obstructions trace to the single algebraic fact of jump reducibility. The quadratic selection is therefore load-bearing at every level of the construction.
+\end{remark}
+
+\paragraph{Bilocal sector: WESH and closed-universe conservation.}
+A purely local dissipator $\mathcal{D}[\hat T^2(x)]$ is entanglement-blind: it applies the same rate regardless of the correlation structure between sites. WESH posits that entanglement is the engine of dissipation, so a channel that does not see correlations cannot realize the hypothesis. The dissipative extension must therefore include a bilocal sector coupling correlated pairs. In a closed universe, WESH--Noether conservation ($\mathcal{L}^\dagger[\hat Q_a] = 0$) then fixes the form of this sector: the commutant conditions~\eqref{eq:commutant-conditions} require a balanced redistribution, selecting the difference form
+\begin{equation}
+L_{xy} = \hat T^2(x) - \hat T^2(y),
+\label{eq:Lxy-def}
+\end{equation}
+where any gain at $x$ is compensated by a loss at $y$. The bilocal channel must further be gated by the entanglement indicator $C(\Psi;x,y)$ (Eq.~\eqref{eq:renyi-gate}), which vanishes on product reductions $\rho_{xy} = \rho_x \otimes \rho_y$ and activates only on genuinely correlated pairs, ensuring that factorized sectors remain dynamically decoupled.
+
+\paragraph{Finite-range pre-geometric locality and bounded collapse power.}
+Since no background metric is available at the fundamental level, admissibility cannot be defined by light-cone data. The kernel $\gamma(x,y)$ must instead be supported on the symmetric pre-geometric proximity relation $N_\xi$ (Definition~\ref{def:Nxi}), with a nonneg\-ative short-range envelope $K_\xi$ that is positive and $L^1$-integrable. This fixes the locality class of the generator without importing causal ordering. With $\mathcal{O}(N^2)$ active pairs, the bilocal rate must then scale as $N^{-2}$ to keep the total collapse power bounded while preserving a non-vanishing macroscopic effect.
+
+\begin{theorem}[Constraint closure of the WESH generator]
+\label{thm:constraint-closure}
+Consider GKSL-type dissipative completions of the Wheeler--DeWitt sector in an auxiliary ordering parameter $s$. Impose CPT symmetry at the level of the stochastic unraveling, so that the local jump set is restricted to even functions of $\hat T$, together with collective stability $\tau_{\mathrm{coh}}(N) \propto N^2$, entanglement-mediated dissipation (WESH) with closed-universe charge conservation (WESH--Noether), product-sector consistency, and finite-range pre-geometric locality with bounded total collapse power. Then the admissible dissipative sector is uniquely of WESH type: a local quadratic channel $\mathcal{D}[\hat T^2(x)]$, a bilocal difference channel $\mathcal{D}[L_{xy}]$ with $L_{xy} = \hat T^2(x) - \hat T^2(y)$, a nonnegative finite-range kernel $\gamma(x,y) = \frac{\gamma_0}{N^2} K_\xi(x{-}y)\,\mathbb{1}_{N_\xi}(x,y)$, and a state-dependent entanglement gate $C(\Psi;x,y)$.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Imposing CPT symmetry at the level of individual eigentime collapses restricts the local jump set to the even class $F(\hat T)\sim \hat T^{2n}$; collective stability then fixes the quadratic normal form ($n = 1$, Eq.~\eqref{eq:scaling-condition}). WESH excludes entanglement-blind completions, forcing a bilocal sector; WESH--Noether fixes its balanced form (Sec.~\ref{sec:wesh-noether}). Product-sector consistency forces state-dependent activation. Pre-geometric locality restricts the kernel to $N_\xi$ (Definition~\ref{def:Nxi}); bounded collapse power fixes $\gamma \propto N^{-2}$. No larger class survives all constraints simultaneously.
+\end{proof}
+
+\noindent The constraint analysis therefore does not merely motivate the WESH structure; it fixes the admissible generator class within the stated constraint set. We now write the resulting dissipative completion of the Wheeler--DeWitt sector explicitly.
+
+\vspace{0.3cm}
+\subsection{The WESH master equation}
+
+\vspace{0.5cm}
+
+\noindent The constraints of Theorem~\ref{thm:constraint-closure} determine the dissipative sector of the 
+generator. Before writing it explicitly, we fix the integration conventions.
+
+\paragraph{Measure conventions.}
+At the fundamental level the label-space is discrete, so the symbols
+$\int d^4x$ and $\int d^4x\,d^4y$ are compact coarse-grained notation
+rather than metric integrals. More precisely, with one correlation cell of
+effective four-volume $V_\xi=\mathcal O(\xi^4)$ attached to each label,
+\begin{equation}
+\int_x := \frac{1}{V_\xi}\int d^4x \;\equiv\; \sum_x,\qquad
+\int_{xy}:=\frac{1}{V_\xi^2}\int d^4x\,d^4y \;\equiv\; \sum_{x,y},
+\qquad V_\xi = \mathcal{O}(\xi^4).
+\label{eq:measure-conventions}
+\end{equation}
+No background measure or metric is assumed here: the continuum symbols are
+retained only as compact notation for the counting measure on the fundamental
+label graph. Once the aligned fixed point is reached and an emergent metric is
+available, this shorthand is matched a posteriori to the usual continuum
+measure $\sqrt{-g}\,d^4x$. With these conventions, $\nu$ carries dimensions of
+inverse time; Prop.~\ref{prop:Gto0} uses unnormalized integrals, so $\nu$ and
+$\int d^4y\,\gamma(x,y)$ scale as $\mathcal{O}(\gamma_0 V_\xi)$ and
+$\mathcal{O}(\gamma_0 V_\xi/N^2)$, respectively.
+
+\paragraph{Generator.}
+
+\vspace{0.3cm}
+\noindent The GKSL generator compatible with these constraints takes the form
+\begin{empheq}[box={\setlength\fboxsep{14pt}\fbox}]{equation}
+\begin{split}
+\frac{d\rho}{ds} \;=\; &{-i[\hat{H}_{\mathrm{eff}}, \rho]}
+\;+\; \nu \intx \mathcal{D}[\tilde{T}^2(x)]\,\rho \\[4pt]
+&+\; \intxy \gamma(x,y)\,C(\Psi;x,y)\,\mathcal{D}[L_{xy}]\,\rho
+\end{split}
+\label{eq:wesh-master}
+\end{empheq}
+where $\tilde{T} = \hat{T}/\tau_s$ is the dimensionless field and
+$\Vxi \sim \xi^4$ sets the coarse-graining four-volume. The effective
+Hamiltonian splits as
+\begin{equation}
+\hat{H}_{\mathrm{eff}} = \hat{H}_{\mathrm{local}} + \hat{H}_{\mathrm{ent}},
+\label{eq:split}
+\end{equation}
+with $\hat{H}_{\mathrm{local}}$ collecting matter and time-field
+contributions and $\hat{H}_{\mathrm{ent}}$ the entanglement-mediated
+correction.
+
+\noindent The dissipative part uses the standard Lindblad superoperator
+\begin{equation}
+\mathcal{D}[O]\,\rho \equiv O\rho O^\dagger - \tfrac12\{O^\dagger O,\rho\},
+\label{eq:superoperator}
+\end{equation}
+so that the local channel is generated by the Hermitian jump operator
+$\tilde{T}^2(x)$,
+\begin{equation}
+\mathcal{D}[\tilde{T}^2(x)]\,\rho \;=\; \tilde{T}^2(x)\,\rho\,\tilde{T}^2(x)
+\;-\; \tfrac12\{\tilde{T}^4(x),\rho\},
+\label{eq:wesh-local-diss}
+\end{equation}
+and can be interpreted as the continuous counterpart of the conditional
+update
+\begin{equation}
+\rho \ \longrightarrow \
+\frac{\hat{T}^2(x)\,\rho\,\hat{T}^2(x)}{\Tr[\hat{T}^2(x)\rho\hat{T}^2(x)]}
+\label{eq:cupdate}
+\end{equation}
+at the point $x$.
+
+\paragraph{Finite-range dissipative kernel.}
+
+\begin{definition}[Pre-geometric neighbourhood]\label{def:Nxi}
+The fundamental label-space is a finite graph $G_\xi=(X,E_\xi)$ whose
+vertices are the labels $x$. For each $x$, let $N_\xi(x)$ denote the
+finite-range neighbourhood determined by the edge relation of range $\xi$:
+\[
+y\in N_\xi(x)\quad \Longleftrightarrow \quad (x,y)\in E_\xi.
+\]
+The relation is \emph{symmetric}
+($y\in N_\xi(x) \Leftrightarrow x\in N_\xi(y)$), carries no causal
+or temporal ordering, and assumes no background metric, differentiable
+structure, or topology beyond the graph itself.
+\end{definition}
+
+\noindent The bilocal weight combines exponential falloff, finite-range
+admissibility, and collective suppression:
+\begin{equation}
+\gamma(x,y) = \frac{\gamma_0}{N^2}\, K_\xi(x-y)\, \mathbb{1}_{N_\xi}(x,y),
+\label{eq:gamma-kernel}
+\end{equation}
+with $K_\xi$ a positive short-range envelope supported on the finite-range
+proximity relation $N_\xi$, e.g.\ $K_\xi(x,y)=e^{-d_G(x,y)/\xi}$ in terms of
+the graph distance $d_G$, written in the compact form $K_\xi(x-y)$ when no
+confusion can arise, $\gamma_0 > 0$ a rate scale, and
+$\mathbb{1}_{N_\xi}$ the indicator of the pre-geometric neighbourhood.
+The $N^{-2}$ prefactor ensures that the sum over all active pairs yields a
+total rate of order $\gamma_0$, independent of system size. At the
+fundamental level, neither $K_\xi$ nor $N_\xi$ presupposes a spacetime metric
+or causal structure: they encode only finite-range adjacency on the label
+graph. In the continuum regime, once the aligned fixed point supplies an
+emergent metric $g_{\mu\nu}$, the coarse-grained support of $N_\xi(x)$ matches
+the causal neighbourhood of $x$ up to corrections $\mathcal{O}(\xi/L)$; this
+identification is therefore an output of the bootstrap, not an input.
+Three distinct objects enter the construction:
+the rate envelope $K_\xi$ (positive, $L^1$, finite-range), which weights
+the dissipative channel; the Yukawa mediator $G_\xi$, which defines
+the entanglement potential $\Phi$ (Appendix~A); and the admissibility
+projector $\mathbb{1}_{N_\xi}$, which encodes locality without metric input.
+
+\paragraph{Terminological note.}
+Two kernels appear with distinct roles. The function $\gamma(x,y)$ in
+Eq.~\eqref{eq:gamma-kernel} is the exponential finite-range dissipative weight
+entering the generator~\eqref{eq:wesh-master}. A Yukawa-type kernel
+$G_\xi(x-y)$, introduced in Appendix~A, defines an entanglement potential
+$\Phi(x)=\int d^4y\ G_\xi(x-y)\,C(\Psi;x,y)$ and enters the metric-emergence
+analysis. Both kernels have the same short range
+$\xi\simeq L_P$, but $\gamma$ weights collapse rates whereas $G_\xi$ averages
+correlations for the emergent geometry.
+
+\paragraph{Entanglement gate.}
+The bilocal channel is modulated by a R\'{e}nyi-2 entanglement indicator,
+\begin{equation}
+C(\Psi;x,y) = \big[\Tr\rho_{xy}^{2} - \Tr\rho_{x}^{2}\,\Tr\rho_{y}^{2}\big]_+
+\;\in\; [0,1),
+\qquad [u]_+:=\max(u,0).
+\label{eq:renyi-gate}
+\end{equation}
+
+\vspace{0.3cm}
+\noindent For comparison with standard connected correlators, one may also define
+\begin{equation}
+C_{\text{loc}}(\Psi;x,y)
+= \langle \hat{f}(x)\hat{f}(y)\rangle_\Psi
+ - \langle \hat{f}(x)\rangle_\Psi\,\langle \hat{f}(y)\rangle_\Psi,
+\label{eq:local-correlator}
+\end{equation}
+for a local observable $\hat f(x)$. This quantity is used only as a
+diagnostic; it never appears in the weights of
+Eq.~\eqref{eq:wesh-master}. The $[\cdot]_+$ construction ensures $0\leq C<1$ in all cases:
+$C=0$ on product states automatically, while $C$ is strictly positive on
+entangled pure states and reaches its maximal finite-dimensional value on
+maximally entangled states. The gate is Lipschitz in the trace norm of the
+reduced states, since $\Tr\rho^2$ is polynomial in $\rho$ (hence Lipschitz
+on bounded sets), products of bounded Lipschitz functions are Lipschitz,
+and $[\cdot]_+$ is $1$-Lipschitz. For equal local dimension $d$, the
+maximal value is $C=1-d^{-2}$, approaching $1$ only in the large
+local-dimension limit; the synchronization channel then operates at full
+strength. This state-dependent weighting is the core of the Weak
+Entanglement Symmetry Hypothesis: geometry emerges from the entanglement
+structure, not the reverse.
+
+\paragraph{Difference form.}
+The bilocal Lindblad operator
+\begin{equation}
+L_{xy} = \tilde{T}^2(x) - \tilde{T}^2(y)
+\label{eq:Lxy-rescaled}
+\end{equation}
+is simply the rescaled version of the difference form
+$L_{xy} = \hat{T}^2(x) - \hat{T}^2(y)$ of Eq.~\eqref{eq:difference_Lxy},
+using the dimensionless field $\tilde{T}(x)=\hat{T}(x)/\tau_s$.
+It penalizes temporal desynchronization between $N_\xi$-connected points. Its difference structure guarantees that no net charge is introduced or removed by the bilocal channel, 
+a property that will later underpin the pre-geometric conservation principle.
+
+\paragraph{No-signaling.}
+Because $\gamma(x,y)$ vanishes for pairs outside $N_\xi$, the bilocal generator has
+$N_\xi$-local support. For any region $A\subset\Sigma$ with complement $A^c$,
+the reduced state obeys
+\begin{equation}
+\frac{d}{ds}\rho_A(s)\;=\;\Tr_{A^c}\big(\mathcal L_{N_\xi(A)}[\rho(s)]\big),
+\label{eq:no-signaling}
+\end{equation}
+where $\mathcal L_{N_\xi(A)}$ denotes the restriction of the generator to operators
+supported in the $N_\xi$-neighbourhood of $A$. Hence operations on $A^c$ outside $N_\xi$
+cannot instantaneously affect $\rho_A$ (Appendix~E).
+
+ \noindent Finite-range locality is thus built into the generator itself at the pre-geometric level: $N_\xi$-locality is a property of the WESH construction, not of the emergent metric. At the 
+alignment fixed point, $N_\xi$-separation coincides with metric spacelike separation
+(Remark~\ref{rem:proximity-causality}), and the pre-geometric no-signaling recovers
+standard relativistic no-signaling on Cauchy slices (Appendix~E, Proposition~\ref{prop:H-nosig}).
+
+\begin{remark}[Nonlinearity, CP/TP, and no-signaling]
+\label{rem:nonlinear-cp}
+Under the structural assumptions of the WESH generator (Hermitian jumps, nonneg\-ative rates, finite-range kernel), freezing the state-dependent
+gate $C(\Psi;x,y)$ on each micro-interval yields a standard GKSL generator
+with Hermitian jumps and nonnegative rates, so that each step of the WESH
+evolution is completely positive, trace preserving, and $N_\xi$-local (Gorini, Kossakowski, \& Sudarshan, 1976; Lindblad, 1976; McCauley
+et al., 2020). The state dependence of $C$ can then be viewed as inducing a
+time-dependent generator; complete positivity and trace preservation for the
+resulting non-autonomous dynamics follow from product-integral constructions
+for time-dependent GKSL evolutions (Rivas \& Huelga, 2012). Appendix~E
+provides the full operator-level proof of CP/TP and no-signaling for
+Eq.~\eqref{eq:wesh-master}.
+\end{remark}
+
+\subsection{Bootstrap, Eigentimes, and the Emergence of Spacetime}
+\label{sec:eigentime-bootstrap}
+
+\vspace{0.3cm}
+In this subsection we analyse how a directed temporal ordering, and subsequently spacetime geometry, may emerge once time is promoted to a local quantum field operator $\hat T(x)$ in the Wheeler--DeWitt sector. Spatial geometry, though not quantized directly, emerges from the alignment dynamics governed by entanglement correlations and the finite-range kernel. The construction must generate temporal order and geometric structure without reintroducing an external time parameter or any pre-assigned temporal layering.
+
+\vspace{0.3cm}
+
+\noindent Throughout this subsection $\langle\cdot\rangle_{\rho(s)}$ denotes expectation in the state $\rho(s)$, $\Delta\hat T(x):=\hat T(x)-\langle\hat T(x)\rangle_{\rho(s)}$, and we set $\hbar=c=1$.
+
+\paragraph{Architectural necessity.}
+Once time is encoded by the operator $\hat T(x)$, it cannot simultaneously act as an external evolution parameter; introducing a separate clock would restart the hyper-time regress. Any emergent temporal order must therefore arise \emph{endogenously}, from the statistics and structure of collapse events of $\hat T(x)$ itself. 
+
+A theory that aims to generate spacetime from a setting that, by necessity, lies \emph{prior to} geometric structure, and simultaneously excludes any external evolution parameter, must satisfy strict architectural constraints tied to the endogenous handling of information. We may therefore identify the following prohibitions:
+\begin{itemize}[leftmargin=1.5em,itemsep=0.1em]
+\item \emph{Sequential} constructions presuppose a pre-existing temporal ordering;
+\item \emph{Hierarchical} constructions presuppose layered or stratified temporal ordering;
+\item \emph{Iterative} algorithms presuppose discrete temporal steps.
+\end{itemize}
+The bootstrap is the \emph{only self-sufficient mathematical architecture identified within these constraints}. This places our construction in continuity with earlier self-consistency programmes: Chew’s $S$-matrix bootstrap (Chew, 1961) and the conformal bootstrap of Rattazzi, Rychkov, Tonni, and Vichi (2008), where physical quantities are fixed by global consistency rather than external inputs. Here, the same philosophy governs \emph{chronogenesis} and the induced emergence of spacetime structure. In short, the bootstrap provides a self-consistent, atemporal configuration in which the Markovian dynamics and Poissonian stochasticity conspire to generate temporal order and geometric structure without any external temporal input or historical memory.
+
+\paragraph{Bootstrap as an atemporal configuration.}
+In WESH, the bootstrap is \emph{not} a temporal sequence. It is an atemporal, non-hierarchical configuration in which multiple elements co-determine one another: a simultaneous fixed-point condition rather than a deterministic chain. To illustrate (as \emph{mutual constraints}, not chronological stages): the quantum state fixes entanglement correlations $C(\Psi;x,y)$; these correlations weight dissipative channels; stochastic eigentime events realize localized outcomes of the time field; the concentration of such events constitutes the emergent spacetime arena in which the state is defined. No element is ``first''; each requires the others for consistency.
+
+This dissolves apparent circularities. As in the Page--Wootters mechanism (Page \& Wootters, 1983), where a timeless global state encodes relational temporal correlations, and as in Wheeler--DeWitt, which admits no ``before'' once time emerges, here there is no ``before the first eigentime'' because eigentimes \emph{constitute} the temporal structure. Questions that presuppose a pre-existing sequence are simply ill-posed. Combined with truly stochastic localization (which carries no temporal memory) and with the finite-range kernel $\gamma(x,y)$ enforcing a finite memory window $\tau_{\mathrm{corr}}\ll\tau_{\mathrm{Eig}}$, this yields the \emph{minimal sufficient} pre-geometric framework: the bootstrap eliminates external temporal scaffolding; Poissonian statistics eliminate dynamical memory; the short-range kernel coordinates the process without long-term history dependence.
+
+\paragraph{Eigentimes as time quanta and geometric seeds.}
+The basic quanta of this construction are \emph{eigentimes}: stochastic localizations of the time field at definite outcomes of the spectral measure of $\hat T(x)$. Let $E_x(dt)$ be the spectral measure of $\hat T(x)$, so that
+\begin{equation}
+\hat T(x) = \int_{\mathbb R} t\,E_x(dt),
+\qquad
+\mathbb 1_x = \int_{\mathbb R} E_x(dt).
+\end{equation}
+For a local time-sector state $|\psi_T(x)\rangle$, the spectral expansion reads
+\begin{equation}
+|\psi_T(x)\rangle = \int_{\mathbb R} E_x(dt)\,|\psi_T(x)\rangle,
+\end{equation}
+and an eigentime event in a Borel window $\Delta\subset\mathbb R$ is modeled operationally by the localization
+\begin{equation}
+|\psi_T(x)\rangle \;\longrightarrow\;
+\frac{E_x(\Delta)\,|\psi_T(x)\rangle}
+{\sqrt{\langle\psi_T(x)|E_x(\Delta)|\psi_T(x)\rangle}},
+\quad
+p_x(\Delta)=\langle\psi_T(x)|E_x(\Delta)|\psi_T(x)\rangle.
+\label{eq:eigentime-collapse}
+\end{equation}
+Eigentimes are discrete stochastic realizations of the continuous spectrum of $\hat T(x)$, not quanta of space. Spatial geometry is induced indirectly: the pattern of eigentime events, weighted by entanglement via $C(\Psi;x,y)$ and correlated by the finite-range kernel $\gamma(x,y)$, seeds the smooth spacetime geometry reconstructed at the dynamical fixed point of the WESH flow. Regions where eigentimes concentrate densely support a well-defined geometric structure; sparsity leaves geometry weakly defined.
+
+\noindent The mean production rate of eigentimes along the auxiliary flow is
+\begin{equation}
+\begin{split}
+\Big\langle\frac{dN_{\mathrm{Eig}}}{ds}\Big\rangle
+&= \frac{\Gamma[\Psi(s)]}{\tau_{\rm Eig}} \\[6pt]
+&= \nu \intx \Tr\!\big[\tilde{T}^2(x)\,\rho(s)\,\tilde{T}^2(x)\big] \\
+&\quad + \intxy \gamma(x,y)\,C(\Psi;x,y)\,\Tr\!\big[L_{xy}^\dagger L_{xy}\,\rho(s)\big],
+\end{split}
+\label{eq:eigrate}
+\end{equation}
+with $\nu>0$ a state-independent intensity scale. The local hazard (the instantaneous propensity at point $x$) satisfies
+\begin{equation}
+\lambda(x)=\nu\,\Tr\!\big[\tilde{T}^2(x)\,\rho\,\tilde{T}^2(x)\big]
+\ \ge\ \nu\,\big(\Var_\rho[\tilde{T}(x)]\big)^2,
+\label{eq:local-hazard}
+\end{equation}
+(Cauchy--Schwarz). Since $\tilde{T}(x)=\hat{T}(x)/\tau_s$ shares the same
+spectral projectors as $\hat{T}(x)$, the lower bound in
+Eq.~\eqref{eq:local-hazard} can be rewritten in terms of the physical
+variance of $\hat{T}(x)$. This motivates the operational activation proxy
+\begin{equation}
+\big\langle(\Delta\hat T(x_0))^2\big\rangle_{\rho(s)}>\tau_{\mathrm{thr}}^{\,2}
+\ \Longrightarrow\ \lambda(x_0)\ \text{enters the active regime}.
+\label{eq:locthreshold}
+\end{equation}
+Two scales control the statistics:
+\begin{equation}
+\tau_{\rm Eig} \equiv \nu^{-1},\qquad
+\tau_{\mathrm{ref}}(x)\;\sim\;\frac{1}{\nu}\,
+\frac{1}{\big(\Var_{\rho}[\tilde{T}(x)]\big)^{2}}.
+\label{eq:eigscale}
+\end{equation}
+Here $\tau_{\rm Eig}$ is the mean spacing in the homogeneous limit, whereas $\tau_{\mathrm{ref}}(x)$ is a hazard-based estimate of the local refractory period after strong localization.
+
+\paragraph{Time-production functional.}
+The relation between the auxiliary coordinate $s$ (a reparametrization-invariant bookkeeping parameter; see Appendix~B) and emergent time $t$ is fixed by
+\begin{equation}
+\frac{dt}{ds} = \Gamma[\Psi], \qquad
+t(s) = \int_0^s \Gamma[\Psi(s')]\, ds',
+\label{eq:s-to-t-bootstrap}
+\end{equation}
+
+\begin{remark}[Auxiliary ordering parameter]
+The lower integration bound is a convention fixing the origin of the auxiliary
+parameter $s$; the use of a non-observable ordering parameter is
+standard in stochastic quantization: in the Parisi--Wu scheme, an
+additional fictitious time parametrizes a Langevin evolution, while the
+physical correlation functions are recovered in the large-time equilibrium
+limit rather than identified with that auxiliary parameter (Parisi \& Wu,
+1981). In the present framework, likewise, physical statements depend only on differences
+$t(s_2)-t(s_1)=\int_{s_1}^{s_2}\Gamma[\Psi(s')]\,ds'$ and are invariant under $s$-translations.
+\end{remark}
+
+\noindent The functional $\Gamma[\Psi]$ is given by
+\begin{equation}
+\begin{split}
+\Gamma[\Psi] = \tau_{\mathrm{Eig}} \Bigl[
+&\nu \intx \Tr\bigl[\tilde{T}^2(x)\,\rho\,\tilde{T}^2(x)\bigr] \\[4pt]
+&+ \intxy \gamma(x,y)\,C(\Psi;x,y)\,\Tr\bigl[L_{xy}^\dagger L_{xy}\,\rho\bigr]
+\Bigr].
+\end{split}
+\label{eq:gamma-decomposition}
+\end{equation}
+
+The prefactor $\tau_{\mathrm{Eig}}=\nu^{-1}$ renders $\Gamma$ dimensionless; by the law of large numbers, $t(s)\approx \tau_{\mathrm{Eig}}N_{\mathrm{Eig}}(s)$. For later use we isolate the bilocal term:
+\begin{equation}
+\Gamma_{\mathrm{bi}}[\Psi(s)] \;=\; 
+\intxy \gamma(x,y)\,C(\Psi;x,y)\,
+\big\langle\,(\tilde{T}^2(x)-\tilde{T}^2(y))^2\,\big\rangle_{\rho(s)}.
+\label{eq:Gamma-bilocal}
+\end{equation}
+
+\begin{lemma}[Monotonicity of $t$]
+\label{lem:Gamma-positive}
+Let $\rho(s)\!\ge\!0$ with $\Tr\,\rho(s)=1$. Assume time-sector
+nondegeneracy (ND): either $\exists\,x_0$ with
+$\Tr[\tilde{T}^2(x_0)\,\rho(s)\,\tilde{T}^2(x_0)]>0$, or $\exists\,(x,y)$ with
+$C[\rho(s);x,y]>0$ and
+$\Tr[\rho(s)\,( \tilde{T}^2(x)-\tilde{T}^2(y) )^2]>0$. With $\nu>0$,
+$\gamma(x,y)\ge 0$, and $0\le C[\rho(s);x,y]\le 1$, one has
+$\Gamma[\rho(s)]\ge 0$, with $\Gamma>0$ under (ND); hence $dt/ds=\Gamma[\rho(s)]\ge 0$ and $t(s)$ is strictly
+increasing under (ND).
+\end{lemma}
+
+\begin{lemma}[Eigentime activation on chronogenetic segments]
+\label{lem:eigentime-activation}
+Under the standing integrability assumptions on $\hat T(x)$ (finite fourth
+moments), assume nondegeneracy (ND) holds along a segment of the $s$-flow, so that
+$\Gamma[\rho(s)]>0$ on that segment (Lemma~\ref{lem:Gamma-positive}).
+Define the survival probability of having no eigentime event on a segment of length
+$\delta>0$ by
+\[
+S_{s_0}(\delta):=\exp\!\left(-\int_{s_0}^{s_0+\delta}\frac{\Gamma[\rho(s')]}{\tau_{\rm Eig}}\,ds'\right).
+\]
+Then $S_{s_0}(\delta)<1$ on any chronogenetic segment (equivalently: eigentime events have
+non-zero intensity on every such segment). No segment is privileged: the statement is
+$s$-translation invariant.
+\end{lemma}
+
+\begin{lemma}[Contraction to equilibrium and $\alpha=2$]
+\label{lem:contraction}
+Let $\Phi_{s,\delta s}$ be the update--mix map over $[s,s+\delta s]$. In
+the Markov regime $\mu=\tau_{\mathrm{corr}}/\tau_{\rm Eig}\ll 1$ there exist
+$L\gg\xi$ and $\varepsilon=\Theta(\mu)>0$ such that
+\[
+\|\Phi_{s,\delta s}(\rho)-\Phi_{s,\delta s}(\sigma)\|_1
+\le (1-\varepsilon)\,\|\rho-\sigma\|_1,\quad\forall\,\rho,\sigma.
+\]
+Since the state space is complete in trace norm, the strict contraction 
+implies (by the Banach fixed-point theorem) a unique fixed point 
+$\rho^\star$ of $\Phi_{s,\delta s}$, and exponential convergence of 
+iterates:
+\[
+\|\Phi_{s,\delta s}^{\,n}(\rho)-\rho^\star\|_1 \le (1-\varepsilon)^n\|\rho-\rho^\star\|_1\,,\qquad
+\|\Phi_{s,\delta s}^{\,n}(\rho)-\Phi_{s,\delta s}^{\,n}(\sigma)\|_1 \le (1-\varepsilon)^n\|\rho-\sigma\|_1.
+\]
+This uniqueness and mixing mechanism is purely Markovian (Dobrushin-type) 
+and does not rely on any KMS, detailed-balance, or thermal structure. 
+Independent routes to existence and uniqueness, via Schauder--Tychonoff 
+under constraints and primitivity with KMS spectral gap, will be developed 
+in forthcoming companion papers. With $\varepsilon=\Theta(\mu)$ and the 
+collective-stability law $\tau_{\mathrm{coh}}(N)\propto N^\alpha$, the 
+fixed-point balance requires $\alpha=2$ (Appendix~C).
+\end{lemma}
+
+\begin{proof}[Sketch]
+Finite interaction range $\xi$ and the $N^{-2}$ normalization imply bounded per-site influence
+$\mathcal{O}(\mu)$ on blocks $L\gg\xi$. Standard Dobrushin-type arguments for finite-range
+Markov mixing then yield trace-norm contraction with $\varepsilon=\Theta(\mu)$, and the
+Banach fixed-point theorem gives uniqueness and exponential mixing.
+An independent uniqueness route via KMS/detailed-balance specialization exists in the near-horizon regime.
+\end{proof}
+
+\paragraph{Self-consistent closure.}
+Lemma~\ref{lem:Gamma-positive} ensures $\Gamma[\rho]\ge 0$, with $\Gamma>0$ under nondegeneracy (ND), so $t(s)$ is non-decreasing in general and strictly increasing under (ND), defining an intrinsic arrow of time. No external clock is introduced at any stage: the statistics of eigentimes, constrained by WESH--Noether conservation and collective stability in the Markov window, fully determine the emergent temporal order. Markovianity, Poissonian statistics, and the atemporal bootstrap architecture thus form a single logical package: the evolution depends only on the present state, carries no temporal memory, and is closed under self-consistency. The foundational closure (WESH derived from Wheeler--DeWitt by constraints,
+and the WESH dynamics contracting back to the frozen Wheeler--DeWitt constraint
+in the $G\!\to\!0$ limit) reflects the self-consistency of the construction
+in a pre-geometric theory: time, geometry, and dynamics co-emerge from the same
+WESH completion of the timeless constraint.
+
+\begin{remark}[Pre-geometric proximity and emergent causal structure]
+\label{rem:proximity-causality}
+The kernel $\gamma(x,y)$ is defined via the pre-geometric proximity $N_\xi$, with no metric input. The WESH dynamics contracts to a unique fixed point $\rho^\star$ (Lemma~\ref{lem:contraction}). At $\rho^\star$, the emergent metric $g_{\mu\nu}^{(T)}$ is well-defined and Lorentzian on scales $L\gg\xi$ (via gradient alignment at the fixed point). The rate envelope $K_\xi$ decays exponentially beyond range $\xi$, so the dissipative kernel couples only pairs within one correlation length of each other. It follows that $N_\xi$ and the causal domain of $g_{\mu\nu}$ agree on all dynamically relevant pairs, up to corrections $\mathcal{O}(\xi/L)$ controlled by the Markov parameter $\mu = \tau_{\mathrm{corr}}/\tau_{\mathrm{Eig}}\ll 1$. That a causal order determines the conformal geometry (Hawking, King \& McCarthy, 1976; Malament, 1977) confirms that the pre-geometric proximity $N_\xi$ is strictly weaker than a metric assumption. Metric causality is a consequence of the fixed point, not an input to its construction.
+\end{remark}
+
+\vspace{0.5cm}
+
+\subsection{Foundational consistency and parameter fixing}
+
+\vspace{0.3cm}
+A necessary check on any dissipative extension of Wheeler--DeWitt is the behavior of the theory in limiting regimes. Here we verify the decoupling of gravitational effects ($G\to 0$) and the consistency of fundamental scales; the thermodynamic scaling at horizons lies beyond the present scope.
+
+\paragraph{Finite memory (Born--Markov).}
+\begin{equation}
+\int_0^\infty dt\,\|\langle \mathcal{C}(t)\mathcal{C}(0)\rangle\| < \infty,
+\qquad 
+\tau_{\mathrm{corr}}=\xi/c \ll \tau_{\rm Eig}\equiv 1/\nu. 
+\label{eq:finite-memory}
+\end{equation}
+
+\noindent\emph{Note.} We use $\mathcal{C}(t)$ for the memory kernel to avoid
+clashes with the entanglement gate $C(\Psi;x,y)$.
+
+\paragraph{Compatibility with $N^2$ stability (ratio scaling).}
+\begin{equation}
+\frac{\tau_{\mathrm{corr}}}{\tau_{\rm Eig}^{(\mathrm{eff})}} \sim N^{-2}
+\quad\text{(bilocal }\gamma\propto N^{-2},\ \
+\tau_{\rm Eig}^{(\mathrm{eff})}\propto N^2\text{).} 
+\label{eq:ratio-scaling}
+\end{equation}
+
+\paragraph{Fundamental scales.}
+The fundamental scales of the theory are anchored to Planck units:
+\begin{equation}
+\xi = \frac{\hbar}{m_T c} \simeq L_P, \qquad
+\gamma_0 \simeq t_P^{-1}.
+\label{eq:fundamental-scales}
+\end{equation}
+
+\noindent\textit{Terminology.} $m_T$ fixes the range $\xi$ of the kernel used
+in $\gamma(x,y)$; it is not an on-shell degree of freedom.
+
+\begin{proposition}[Decoupling in the $G\!\to\!0$ limit]
+\label{prop:Gto0}
+Let $\xi\simeq L_P\propto\sqrt{G}$ and
+$\gamma_0\simeq t_P^{-1}\propto G^{-1/2}$, and write
+\[
+\gamma(x,y)=\frac{\gamma_0}{N^2}\,K_\xi(x-y)\,
+\mathbb{1}_{N_\xi}(x,y),\qquad
+K_\xi\ge0,\quad \|K_\xi\|_{L^1(\mathbb{R}^{1,3})}\sim V_\xi=\mathcal O(\xi^4) .
+\]
+Define the shorthand
+\[
+\int\!\gamma \;\equiv\; \int d^4y\,\gamma(x,y).
+\]
+Then
+\[
+\nu\propto \gamma_0\,V_\xi \to 0,\qquad
+\int\!\gamma=\frac{\gamma_0}{N^2}\,\|K_\xi\|_{L^1}
+\sim \frac{\gamma_0}{N^2}\,V_\xi \to 0,
+\]
+so for any bounded operator $A$,
+\[
+\Big\|\tfrac{d}{ds}\Tr(A\rho)\Big\|_{\mathrm{diss}}
+\;\le\; C_A\big(\nu+\!\int\!\gamma\big)\;\to\;0.
+\]
+\end{proposition}
+
+\noindent\emph{Proof sketch.} $\|K_\xi\|_{L^1}\sim c\,\xi^4$ yields
+$\nu,\int\gamma=\mathcal{O}(\gamma_0\xi^4)\to 0$; standard Lindblad bounds
+give $\|\mathcal{D}\|\le \mathrm{const}\cdot(\nu+\int\gamma)\to 0$, hence
+strong convergence to the unitary group.
+
+\paragraph{Constraint continuity (The Frozen Limit).}
+Since the fundamental scales satisfy $\xi \sim L_P \propto \sqrt{G}$ and 
+$\gamma_0 \sim t_P^{-1}$, taking the formal limit $G\to 0$ implies 
+$\nu\to 0$ and $\int\gamma\to 0$. In this limit, the dynamics undergoes 
+a structural contraction:
+\begin{enumerate}[label=(\roman*),leftmargin=1.5em]
+\item \textbf{Vanishing dissipation.} The non-unitary terms in the master 
+equation scale to zero, leaving a unitary flow generated solely by 
+$\hat{H}_{\mathrm{eff}}$.
+\item \textbf{Halting of temporal flow.} Crucially, the eigentime event
+rate $\big\langle dN_{\rm Eig}/ds\big\rangle$ (Eq.~\ref{eq:eigrate})
+vanishes as $\nu\to 0$ and $\int\gamma\to 0$ (Prop.~\ref{prop:Gto0}):
+no eigentimes occur, and the arrow of time ceases to emerge.
+\end{enumerate}
+
+\paragraph{Physical interpretation.}
+The limit $G\to 0$ enables us to recognize WESH and Wheeler--DeWitt as 
+two regimes of the same fundamental constraint. When gravitational coupling 
+is active, the constraint unfolds into a dissipative, dynamical structure 
+that generates temporal flow; when gravity is turned off, both the production 
+of time and the emergence of spacetime geometry halt simultaneously, and the 
+theory continuously contracts back to the frozen, timeless sector 
+$\hat{H}_{\mathrm{tot}}|\Psi\rangle=0$. 
+
+Physical time emerges as the output of a single dissipative resolution of the Wheeler--DeWitt constraint, through the eigentime bootstrap ($dt/ds=\Gamma>0$). The same pre-geometric algebraic constraints---CPT invariance, WESH--Noether charge conservation, and collective stability---also determine the infrared attractor of the WESH flow, from which spacetime geometry crystallizes through gradient alignment. Neither time nor geometry is logically prior; both derive from the same dissipative structure without postulating a background arena.
+
+\paragraph{Fixed-regime summary.}
+Combining the $N^{-2}$ kernel scaling with the Markov condition
+$\tau_{\mathrm{corr}} \ll \tau_{\mathrm{Eig}}$ yields a self-consistent
+fixed point:
+\begin{equation}
+\boxed{\;
+\big(\tau_{\mathrm{coh}}(N)\propto N^2\big)\ \&\
+\big(\mu:=\tfrac{\tau_{\mathrm{corr}}}{\tau_{\rm Eig}}\ll 1\big)
+\ \Longleftrightarrow\ \alpha=2
+\;}
+\label{eq:fixed-regime}
+\end{equation}
+The bootstrap mechanism is a self-consistency requirement 
+that constrains the dynamics of the theory, analogous to closure conditions 
+successfully employed in conformal field theory to fix operator dimensions 
+(Rattazzi et al., 2008). This is not circular; it constitutes a 
+dynamical equilibrium condition: the parameters that govern dissipation 
+($\gamma_0$, $\xi$) and the resulting statistical properties of eigentime 
+events ($\nu$, $\tau_{\mathrm{coh}}$) must mutually adjust to maintain 
+Markovian memory within a collective $N^2$ stability window.
+
+\begin{remark}
+The scaling statement in Eq.~\eqref{eq:fixed-regime} is encoded by the
+bilocal part of the WESH generator \eqref{eq:wesh-master} with finite-range kernel
+\eqref{eq:gamma-kernel}: the $N^{-2}$ prefactor provides collective
+protection (per-site rate $\Gamma_i\!\sim\!\gamma_0/N$), while the finite
+correlation length $\xi$ fixes a state-independent correlation time
+$\tau_{\mathrm{corr}}\!\sim\!\xi/c$. Together these imply the Markov window
+$\mu:=\tau_{\mathrm{corr}}/\tau_{\rm Eig}\ll 1$ in the large-$N$ regime
+(see the heuristics in Appendix~C).
+\end{remark}
+
+\noindent The construction developed in this section introduces several 
+scales and parameters whose interplay governs the dynamics. 
+For ease of consultation, Table~\ref{tab:parameters} presents 
+them together with their definitions, dimensions, and defining equations.
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Summary of fundamental parameters and scales in the QFTT--WESH formalism.} All quantities use natural units with $\hbar=c=1$ where applicable.}
+\label{tab:parameters}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.10}
+\begin{tabularx}{\linewidth}{l Y Y Y l}
+\toprule
+\textbf{Symbol} & \textbf{Meaning} & \textbf{Dimensions} & \textbf{Scale / Definition} & \textbf{Eq.} \\
+\midrule
+$\xi$ &  Corr.\ length & [length] & Planck ($\simeq L_P$) & \eqref{eq:fundamental-scales}, \eqref{eq:gamma-kernel} \\
+$\gamma_0$  & WESH rate scale & [time]$^{-1}$ &
+$\simeq t_P^{-1}\!\times\!\Theta_0$ &
+\eqref{eq:fundamental-scales}, (A.6) \\
+$N_{\mathrm{Eig}}$ & eigentime count & --- &
+via Eq.~\eqref{eq:eigrate} &
+\eqref{eq:eigrate}, \eqref{eq:s-to-t-bootstrap} \\
+$\tau_{\rm Eig}$  & Mean eigentime spacing & [time] & $1/\nu$ &
+\eqref{eq:eigscale} \\
+$\nu$ & Local eigentime rate & [time]$^{-1}$ &
+matched (no explicit $N$) &
+\eqref{eq:eigrate}, \eqref{eq:nu-matching} \\
+$\tau_{\mathrm{corr}}$ & Correlation time & [time] & $\xi/c$ &
+\eqref{eq:finite-memory} \\
+$\tau_{\mathrm{coh}}$ & Coherence time & [time] & $\propto N^{2}$ &
+\eqref{eq:fixed-regime} \\
+$\alpha$ & Stability exponent & --- & $2$ &
+\eqref{eq:fixed-regime} \\
+$\Gamma[\Psi]$ & Time-production functional & --- &
+$\ge 0$ & \eqref{eq:s-to-t-bootstrap}, \eqref{eq:gamma-decomposition} \\
+$C(\Psi;x,y)$ & Entanglement corr.\ & --- & $[0,1)$ &
+\eqref{eq:renyi-gate} \\
+$L_{xy}$ & Bilocal jump operator & --- & $\tilde{T}^2(x)-\tilde{T}^2(y)$ &
+\eqref{eq:difference_Lxy}, \eqref{eq:Lxy-def} \\
+$m_T$ & Kernel mass scale & [mass] & $\propto 1/\xi$ &
+\eqref{eq:fundamental-scales} \\
+\bottomrule
+\end{tabularx}
+\vspace{0.3cm}
+\parbox{\linewidth}{\footnotesize 
+\noindent\emph{Units Note.} With $\Ttil=\hat T/\tau_s$ and normalized measures
+$\intx$ and $\intxy$, each additive term in the generator carries units
+of inverse time. With $\|K_\xi\|_{L^1(\mathbb{R}^{1,3})}\sim V_\xi=\mathcal O(\xi^4)$,
+the integrated bilocal weight scales as 
+\[
+\int\!\gamma=\frac{\gamma_0}{N^2}\,\|K_\xi\|_{L^1}\sim\frac{\gamma_0}{N^2}\,V_\xi.
+\] Using the
+normalized measures ensures consistent dimensions in Eq.~\eqref{eq:wesh-master}. 
+The time-production functional $\Gamma[\Psi]$ is rendered dimensionless by the prefactor
+$\tau_{\rm Eig}=1/\nu$ in Eq.~\eqref{eq:gamma-decomposition}, ensuring that
+the map $dt/ds=\Gamma[\Psi]$ is dimensionally consistent.
+}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{Picture2.png}
+\caption{\textbf{WESH as the dissipative extension of Wheeler--DeWitt.}
+The frozen time paradox ($\Delta H_{\rm tot}=0 \Rightarrow \Delta T \to \infty$) 
+requires a GKSL dissipative structure. Three constraints (CPT symmetry
+at the stochastic-unraveling level with finite-range pre-geometric
+locality, WESH--Noether charge conservation, and collective $N^{2}$
+stability) determine the generator: a local channel 
+$\mathcal{D}[\hat T^{2}(x)]$ plus a bilocal channel 
+$\mathcal{D}[L_{xy}]$ weighted by R\'enyi--2 correlators.
+The dashed arrow indicates foundational closure: in the limit $G\to 0$,
+dissipation vanishes and WESH reduces to unitary Wheeler--DeWitt.}
+\label{fig:wdw-wesh}
+\end{figure}
+
+\clearpage
+
+\section{Key Theoretical Predictions}
+\label{sec:theoretical-predictions}
+
+\vspace{0.5cm}
+
+\textit{Overview. Building on the WESH--Noether structure developed in Sec.~1, we now isolate two quantitative signatures of the framework: 
+(i)~collective stability, expressed by the $N$--scaling of coherence, which acts as a structural discriminant of the bilocal WESH channel; and 
+(ii)~a $\cos^2\theta$ angular modulation in parity decay, which provides a diagnostic test of state/geometry factorization and finite-range connectivity. 
+Both follow from the WESH master equation and its finite-range kernel, and they provide quantitative targets for the simulations and hardware tests of Sec.~\ref{sec:experimental}.}
+
+\vspace{1cm}
+
+\subsection{Collective stability and $N$-scaling}
+\vspace{0.3cm}
+
+The fundamental signature of WESH dynamics is the suppression of pairwise dissipative couplings as the system size grows. Unlike standard decoherence, where independent local errors accumulate linearly, the WESH interaction strength scales inversely with the square of the number of constituents:
+\begin{equation}
+\gamma_{ij}(N) \;=\; \frac{\gamma_0}{N^2}\,,\qquad i\neq j. 
+\label{eq:cs-scaling}
+\end{equation}
+The $N^{-2}$ scaling emerges as a non-arbitrary requirement: maintaining the total collapse power finite in the thermodynamic limit ($\sum \gamma_{ij} \sim \mathcal{O}(\gamma_0)$), ensuring that the effective rate per subsystem decreases as $\Gamma_i \sim 1/N$.
+
+Consequently, we predict a \textbf{collective enhancement of coherence time} that defies standard local noise models:
+\begin{equation}
+\tau_{\mathrm{coh}}(N)\;\propto\;N^2. 
+\label{eq:coherence-enhancement}
+\end{equation}
+This quadratic protection is valid in the Markovian regime where the correlation time $\tau_{\mathrm{corr}}$ is small compared to the eigentime scale $\tau_{\rm Eig}$ (see Appendix~C for the heuristic derivation).
+\vspace{0.5cm}
+
+\subsection{Angular dependence: projection $\to$ geometry $\to$ state}
+\label{subsec:ang-bridge}
+\vspace{0.3cm}
+
+A second, diagnostic signature connects the detector geometry to the prepared quantum state. The decay rate of parity oscillations is predicted to follow a robust angular modulation:
+\begin{equation}
+\Gamma_{\mathrm{dec}}(\theta)=\overline\Gamma\big(1+\varepsilon\cos^2\theta\big),
+\qquad
+\varepsilon=\frac{a_2}{a_0}\,\frac{G_2}{G_0}.
+\label{eq:angular-law}
+\end{equation}
+Here $\varepsilon$ factorizes into an intrinsic state anisotropy ($a_2/a_0$) and a device-specific geometric factor ($G_2/G_0$). The $\cos^2\theta$ form follows from the WESH master equation through a chain of four steps, which we summarize here (the full derivation with all intermediate expressions is available in the supplementary material).
+
+\paragraph{Step 1: Dynamical origin.}
+In the Heisenberg picture, the WESH bilocal channel governs the parity evolution through $\frac{d}{ds}\langle\hat\Pi(\theta)\rangle_{\mathrm{WESH}} = \iint \gamma(x,y)\,C(\Psi;x,y)\,\langle L_{xy}^\dagger\hat\Pi L_{xy} - \tfrac{1}{2}\{L_{xy}^\dagger L_{xy},\hat\Pi\}\rangle$. In the echo-narrowband regime at fixed $(T,n)$, this reduces to a state-dependent scalar rescaling: $\frac{d}{ds}\langle\hat\Pi\rangle = -R_\Pi\,M(\Psi)\,\langle\hat\Pi\rangle$, where $R_\Pi$ is angle-independent, $\vartheta$ denotes the relative angle between the intrinsic anisotropy axis of the prepared state and the effective measurement direction, and the modulator $M(\Psi)\propto\bar{C}(\Psi)\cos^2\vartheta$ encodes the entanglement correlator and the structural overlap of the prepared state. This factorization, not the geometry, fixes the existence of the $\cos^2$ harmonic.
+
+\paragraph{Step 2: Gradient expansion.}
+Within the Markov window, the bilocal integral reduces to a 3D spatial average at fixed $s$. A second-order Taylor expansion of $\tilde{T}^2(y)$ around $x$ yields $(\tilde{T}^2(x)-\tilde{T}^2(y))^2 \approx r^2(\hat{\mathbf r}\cdot\nabla\tilde{T}^2)^2$, which links the scalar difference to a direction-selective form.
+
+\paragraph{Step 3: Measurement projection.}
+The rotated-parity observable $\hat\Pi(\theta) = (\cos\theta\,\sigma_z + \sin\theta\,\sigma_x)^{\otimes N}$ acts as a geometric projector onto pair orientations: $(\hat{\mathbf m}(\theta)\cdot\hat{\mathbf r}_{ij})^2 = \cos^2(\theta - \alpha_{ij})$. The $\cos^2\theta$ harmonic emerges from the interplay of this projector with the pair-orientation statistics of the device layout, encoded in the lattice sums $G_0 = \sum_k w_k$ and $G_2 = \sum_k w_k\cos 2\alpha_k$.
+
+\paragraph{Step 4: Gate anisotropy.}
+For GHZ states prepared with directional bias $\hat{\mathbf n}$, the entanglement gate admits an even expansion $C(\Psi;\hat{\mathbf r}) = a_0 + a_2(\hat{\mathbf r}\cdot\hat{\mathbf n})^2 + \mathcal{O}(a_4)$, with $a_0 > 0$ and $|a_2|\ll a_0$. Inserting this into the lattice-weighted sum yields $\varepsilon = (a_2/a_0)(G_2/G_0)$. For W-type states, $a_2^{(W)} < 0$, predicting anti-modulation ($\varepsilon_W < 0$).
+
+\medskip
+\noindent The key point is that each step in the derivation is anchored to the WESH dissipator structure: the $\cos^2\theta$ form is a consequence of the quadratic jump operators $L_{xy} = \hat{T}^2(x) - \hat{T}^2(y)$, the finite-range kernel, and the parity readout, not of any ad hoc geometric assumption. The device factor $G_2/G_0$ can be computed independently from the chip layout, allowing an inversion $a_2/a_0 = \varepsilon/(G_2/G_0)$ that extracts the intrinsic state anisotropy from the measured modulation amplitude. GHZ states exhibit positive modulation ($\varepsilon > 0$), while W-states show anti-modulation ($\varepsilon < 0$), providing a state-class control that isotropic noise models cannot reproduce.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{Picture13.png}
+\caption{}
+\label{fig:angular-geometry}
+\end{figure}
+
+\vspace{0.8cm} 
+\subsection{Discrimination from conventional decoherence models}
+\label{subsec:discrimination}
+\vspace{0.3cm}
+
+The predictions of Sec.~2.1--2.2 are informative only insofar as they can be
+\emph{discriminated} from conventional (non-WESH) decoherence mechanisms.
+Here we (i) state an explicit null class of models, (ii) isolate the two
+WESH-specific discriminants already derived in the framework (collective
+$N$-scaling and state--geometry factorization of the angular law), and (iii)
+summarize falsification criteria and the minimal control program needed to
+exclude device-driven explanations.
+
+\paragraph{Status of the collision model.}
+The collision model used in Sec.~3 is a deliberately reduced \emph{surrogate}:
+it does not attempt to simulate the full WESH master equation (e.g.\ the full finite-range-kernel
+structure or the pre-geometric WESH--Noether constraint), but isolates the specific ingredient
+tested there, namely the inverse scaling of the effective couplings implied by Eq.~\eqref{eq:cs-scaling}, in a
+tractable Markovian dynamics with an explicit local benchmark.
+In this controlled setting, extracting effective decay rates yields a clear pre-asymptotic power law
+$\gamma(N)\propto N^{\alpha_\gamma}$ with $\alpha_\gamma\simeq -1.80$ over $N=2$--$16$ (while the matched
+local benchmark returns $\alpha_\gamma=-1$), trending toward the WESH asymptote $\alpha_\gamma=-2$
+and already cleanly separated from local scaling.
+The collision model therefore serves as a \emph{quantitative consistency check} (numerical proof-of-concept)
+for the collective-stability mechanism and for the scaling-inference pipeline; it complements, rather than replaces, the hardware evidence.
+Empirical support is instead sought in the hardware signatures of Sec.~3, where the angular modulation and the
+entanglement-linked protection are observed under gate-matched controls on real processors.
+
+\paragraph{Null class of models (non-WESH).}
+We take as baseline any model in which decoherence is fully accounted for by
+\emph{state-independent hardware noise} (possibly including spatial correlations)
+plus control imperfections. Concretely, this includes:
+(i) independent local Markovian channels (dephasing, depolarizing, amplitude damping)
+with per-qubit rates not decreasing with system size, and
+(ii) device-level correlated noise that may be anisotropic in space but remains
+\emph{independent of the prepared entanglement class} (GHZ vs W vs product),
+once gate depth and readout are matched.
+Under this null class, any observed advantage of an entangled preparation must be
+attributable either to circuit-level differences or to geometry-only correlations,
+not to a bilocal, state-gated channel.
+
+\paragraph{Structural discriminant: inverse pair scaling and collective stability.}
+Within the WESH master-equation structure used in Sec.~2.1, the suppression of
+pairwise dissipative couplings,
+\begin{equation*}
+\gamma_{ij}(N)=\gamma_0/N^2 , \qquad i\neq j
+\end{equation*}
+(Eq.~\eqref{eq:cs-scaling})
+is the condition that keeps the total bilocal collapse power
+finite when the number of pairs grows with $N$.
+In the regime in which the reduced description applies (Markov window as specified
+in the framework), this yields the collective stability enhancement
+\begin{equation*}
+\tau_{\mathrm{coh}}(N)\propto N^2 ,
+\end{equation*}
+(Eq.~\eqref{eq:coherence-enhancement}).
+By contrast, in the null class above, increasing $N$ does not generically
+increase coherence time for genuinely entangled states beyond trivial control effects:
+independent local error accumulation is constant at best and typically degrades with $N$,
+and correlated noise can at most change the \emph{rate of degradation} unless one engineers
+a symmetry-protected subspace (addressed below).
+Therefore, observing sustained superlinear enhancement in entangled coherence with growing $N$
+is a \emph{structural} rejection of the baseline class, while the absence of any superlinear
+trend across accessible $N$ places a quantitative upper bound on the WESH coupling
+and, if persistent, would falsify the collective-stability prediction as stated.
+
+\paragraph{Diagnostic discriminant: factorized, state-dependent angular modulation.}
+The angular law
+\begin{equation*}
+\Gamma_{\mathrm{dec}}(\theta)=\overline\Gamma\big(1+\varepsilon\cos^2\theta\big),
+\qquad
+\varepsilon=\frac{a_2}{a_0}\,\frac{G_2}{G_0},
+\end{equation*}
+(Eq.~\eqref{eq:angular-law}) is derived in Sec.~\ref{subsec:ang-bridge} from (i) rotated-parity projection,
+(ii) lattice-weighted geometry, and (iii) weak even gate anisotropy (full intermediate expressions in the supplementary material). Importantly, the
+framework predicts not merely a $\cos^2\theta$ harmonic, but a \emph{factorization}:
+$G_2/G_0$ is device/ layout-specific and state-independent, while $a_2/a_0$ is an intrinsic
+state-class parameter controlling the \emph{sign} and magnitude of $\varepsilon$.
+A purely device-driven anisotropy can indeed generate a $\cos^2\theta$ modulation in parity decay,
+so the harmonic \emph{alone} is not sufficient for discrimination.
+The diagnostic power arises from the \emph{state-coupled} structure:
+when geometry and readout are held fixed, the framework predicts a sign reversal of the
+modulation between GHZ-type preparations ($\varepsilon>0$) and W-type controls ($\varepsilon<0$),
+as already used as a control in Sec.~3.
+
+\paragraph{Minimal control set implied by the framework.}
+Discrimination requires treating the WESH signature as a \emph{joint constraint} rather than
+a single effect:
+\begin{enumerate}[leftmargin=1.6cm,itemsep=0.2cm]
+\item \textbf{Gate-matched entanglement control (Sec.~3).}
+The fake-GHZ procedure isolates entanglement from gate depth: if the observed protection were
+a circuit artifact, fake-GHZ would reproduce it; instead, the separation between GHZ and product-like
+controls is used as the operational discriminator.
+\item \textbf{State swap at fixed geometry (Sec.~3).}
+Replacing GHZ by a W-state while keeping the same device subset and readout targets the
+state-coupled nature of $\varepsilon$.
+\item \textbf{Cross-platform reproducibility (Sec.~3).}
+Reproducing the angular signature across distinct hardware stacks (IBM Eagle vs Rigetti Ankaa-3)
+reduces the plausibility of vendor-specific correlated noise as a complete explanation.
+\item \textbf{Sequence/band robustness (Sec.~3).}
+Protection that persists across the spectroscopy band and across CPMG depths constrains
+interpretations in which the effect is primarily a dynamical-decoupling filter artifact.
+\end{enumerate}
+The angular derivation (Sec.~\ref{subsec:ang-bridge}) further clarifies that an angle-independent baseline (hardware noise) can coexist with
+the modulation without generating it; hence, controls must target the \emph{state dependence}
+of the modulation amplitude rather than the existence of a baseline rate.
+
+\begin{table}[h]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{@{}l
+  >{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}X@{}}
+\toprule
+Signature &
+WESH (this work) &
+State-independent hardware noise (null class) &
+Standard alternatives \\ \midrule
+Angular modulation &
+$\cos^2\theta$ with factorization
+and GHZ/W sign flip &
+possible device-tied anisotropy,
+no state-class sign reversal &
+fixed pattern from bath / layout \\[2pt]
+Scaling with $N$ &
+$\tau_{\mathrm{coh}}\propto N^2$ (collective stability) &
+$\tau_{\mathrm{coh}}=\mathcal O(1)$ or degrading with $N$ &
+model-dependent, typically sub-quadratic \\[2pt]
+Gate-matched GHZ vs fake-GHZ &
+protection persists under gate-matched control &
+differences attributable to overhead only &
+depends on encoding/implementation \\[2pt]
+GHZ vs W modulation sign &
+$\varepsilon_{\mathrm{GHZ}}>0$, $\varepsilon_{W}<0$ at fixed geometry &
+no systematic dependence on entanglement class &
+no generic sign flip at fixed layout \\ \bottomrule
+\end{tabularx}
+\caption{\textbf{Schematic discrimination logic.}  
+The WESH framework is constrained by a \emph{joint} signature set:
+collective $N$-scaling, factorized angular modulation, and
+state-dependent sign reversal at fixed geometry.
+Conventional noise mechanisms may reproduce individual rows but must account
+for the full pattern simultaneously.}
+\label{tab:discrimination}
+\end{table}
+
+\paragraph{Alternative explanations and what they must reproduce.}
+The following conventional mechanisms can mimic \emph{parts} of the observed phenomenology,
+but are constrained by the full signature set above:
+\begin{enumerate}[leftmargin=1.6cm,itemsep=0.25cm]
+\item \textbf{Spatially correlated Markovian noise (device anisotropy).}
+This can generate a $\cos^2\theta$ harmonic if correlations define a preferred direction.
+To explain the WESH pattern it must additionally reproduce (at fixed geometry) the GHZ/W sign reversal
+and the gate-matched GHZ vs fake-GHZ separation, rather than producing a modulation that tracks only
+device orientation.
+\item \textbf{Non-Markovian (colored) noise under dynamical decoupling.}
+Such noise can produce strong sequence-dependent changes in apparent decay rates.
+To mimic the WESH claims it must yield a state-class dependent modulation (including sign reversal)
+that remains consistent across CPMG depths and across the tested frequency band.
+\item \textbf{Decoherence-free subspace / collective-noise protection.}
+DFS effects require an approximate permutation-symmetric coupling structure not naturally realized on
+fixed-geometry superconducting chips with inhomogeneous couplings.
+Moreover, DFS protection is highly state-selective; to replace the WESH explanation it must account
+simultaneously for the entanglement-specific protection (gate-matched control) \emph{and} the
+state-coupled angular signature derived in Sec.~\ref{subsec:ang-bridge}.
+\end{enumerate}
+
+
+
+\paragraph{Falsification criteria.}
+Within the present formulation, the framework is constrained or ruled out by any of the following:
+\begin{enumerate}[leftmargin=1.6cm,itemsep=0.2cm]
+\item \textbf{No collective enhancement:} entangled coherence does not show a superlinear improvement with $N$
+under gate-matched conditions as hardware capabilities extend to larger multipartite registers.
+\item \textbf{No state-coupled angular signature:} the $\cos^2\theta$ modulation is absent on entangled states,
+or appears identically on product/fake-GHZ controls (indicating a device artifact rather than a state-coupled effect).
+\item \textbf{No GHZ/W sign reversal:} the modulation amplitude does not change sign under a GHZ $\leftrightarrow$ W
+state swap at fixed geometry and readout.
+\item \textbf{Protection compatible with overhead only:} the observed protection ratio remains consistent with
+gate-depth/readout overhead alone in the gate-matched control protocol.
+\end{enumerate}
+
+\paragraph{Experimental intent and topology awareness.}
+The simulations and hardware experiments reported in Sec.~3 were designed with falsification intent. The collision model implements the $1/N^2$ coupling exactly and extracts scaling exponents from the output; the resulting $\alpha_\gamma \simeq -1.80$ is a measured outcome. Had the exponent returned $\alpha_\gamma \simeq -1$ (local scaling), the collective-stability prediction would have been ruled out at the simulation level.
+
+The hardware experiments were equally agnostic. The $\cos^2\theta$ modulation and the GHZ/product protection gap are extracted from raw data under gate-matched controls; neither the circuit design nor the readout protocol encodes WESH-specific structure. The observed signatures are consistent with the predictions, but we are aware that the heavy-hex topology of IBM Eagle and the square-octagon lattice of Rigetti Ankaa-3 introduce geometry-dependent correlated noise that could, in principle, contribute to angular modulation independently of fundamental physics. For this reason, the falsification criteria above include state-class controls (GHZ vs W sign reversal, fake-GHZ null test) that are insensitive to fixed device geometry: a purely layout-driven artifact would not reverse sign under a state swap at fixed hardware geometry.
+
+A definitive test of the geometric origin of the angular signature requires repeating the protocol on architectures with qualitatively different connectivity, in particular trapped-ion linear chains or reconfigurable neutral-atom arrays, where the pair-orientation statistics differ fundamentally from the heavy-hex lattice.
+
+\noindent Current data (Sec.~3) are consistent with the angular and protection signatures for $N=3,4$ and show
+degradation for $N\ge 5$, defining the present sensitivity frontier on NISQ processors. Decisive tests of the
+collective-stability discriminant require higher-fidelity multipartite entanglement at larger $N$.
+\vspace{0.8cm}
+
+\section{Experimental Validation}  
+\label{sec:experimental}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{3.\arabic{figure}}
+
+\vspace{0.5cm}
+We test these predictions through a dual approach combining controlled classical simulations and quantum hardware experiments. The collision model constitutes a direct test of the collective-stability sector of the WESH master equation: the $1/N^2$ coupling is implemented exactly, and the resulting scaling is a prediction, not an input. The hardware experiments provide a complementary test in a physical quantum system where the noise channels are not designed to match WESH but are observed to produce consistent phenomenology.
+
+\vspace{0.3cm}
+\noindent First, we employ a pre-asymptotic collision model on CPUs to isolate the collective stability mechanism. This model deliberately implements inverse couplings in a tractable regime ($N \leq 16$) to verify the scaling laws without the overhead of full quantum simulation.
+
+\vspace{0.3cm}
+\noindent Second, we execute production runs on superconducting quantum processors (IBM Eagle and Rigetti Ankaa-3). These experiments probe the angular dependence and protection gaps in a physical setting, leveraging large-scale statistics ($\sim 3 \times 10^6$ shots) to extract signals from the NISQ noise floor.
+\vspace{0.3cm}
+
+\noindent All datasets and analysis scripts are available in the companion repository:\\
+\href{https://github.com/Luca-Casagrande/QFTT--WESH-1}{\texttt{https://github.com/Luca-Casagrande/QFTT--WESH-1}}.
+
+
+\subsection{Numerical Evidence: Collective Stability}
+\vspace{0.3cm}
+
+The collision model simulations are consistent with the non-standard scaling predicted by Eq.~\eqref{eq:cs-scaling}. Figure~\ref{fig:3-1} compares WESH, standard decoherence, and pure WDW baselines across system sizes $N=3$--$9$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{Picture5.png}  
+\caption{\textbf{Purity and coherence scaling ($N=3\text{--}9$).}
+Comparison of WESH (collective jump $L \propto T/N$), Standard (local jumps $\sigma_x$), and Pure WDW baselines. 
+\textbf{Left:} Time traces at $N=9$. WESH maintains significantly higher purity and coherence.
+\textbf{Right:} Log-log scaling. WESH coherence grows super-linearly ($\alpha_C \approx 2.5$), supporting the collective stability hypothesis. Standard decoherence shows no such enhancement.}
+\label{fig:3-1}
+\end{figure}
+
+\noindent The robustness of this scaling under different coupling profiles is shown in Figure~\ref{fig:3-2}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Picture6.png}
+\caption{\textbf{Robustness of protection.} Final coherence $C(N)$ for various noise channels and coupling profiles. Only inverse scaling ($1/N^k$) enables coherence preservation (rising trends), whereas constant coupling leads to rapid decay (flat/dropping trends).}
+\label{fig:3-2}
+\end{figure}
+
+\noindent Extending the analysis to $N=16$ (Figures~\ref{fig:3-3} and~\ref{fig:3-4}), the rate scaling exponent is extracted and compared against a local baseline.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Picture7.png}
+\caption{\textbf{Pre-asymptotic rate scaling.} Log-log regression yields $\gamma(N) \propto N^{-1.80}$, consistent with an approach to the asymptotic $N^{-2}$ WESH prediction.}
+\label{fig:3-3}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Picture7a.png}
+\caption{\textbf{Local baseline check.} The same analysis on a local first-order model yields $\alpha = -1.00$, validating the sensitivity of the metric.}
+\label{fig:3-4}
+\end{figure}
+
+\vspace{0.8cm}
+\subsection{Hardware Evidence: Angular Law and Protection}
+
+On quantum hardware, we focus on the angular signature (Eq.~\eqref{eq:angular-law}). Experiments on IBM Eagle ($N=3,4$) reveal a clear $\cos^2\theta$ modulation of the parity decay rate. Figure~\ref{fig:3-5} shows a high-quality fit ($R^2=0.947$) with modulation amplitude $\varepsilon \approx 0.31$. Crucially, preparing a W-state reverses the sign of the effect (anti-modulation), confirming the state-dependence predicted by the theory.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Picture8.png}
+\caption{\textbf{Angular dependence on IBM Eagle.} 
+\textbf{Top Left:} Decay rate modulation follows the predicted $\cos^2\theta$ law ($R^2=0.947$).
+\textbf{Top Right:} W-state control shows the predicted sign reversal (anti-modulation).}
+\label{fig:3-5}
+\end{figure}
+
+\noindent To rule out gate-overhead artifacts, we performed a controlled comparison (Figure~\ref{fig:3-6}) between GHZ states and "fake-GHZ" states (entanglement created and immediately undone). The GHZ state retains significantly higher parity, with a decay rate ratio $\Gamma_{\rm PROD}/\Gamma_{\rm GHZ} \approx 2.6$, far exceeding the factor attributable to gate depth alone ($\sim 1.2$).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Picture9.png}
+\caption{\textbf{Gate-matched control.} The "Fake-GHZ" (disentangled) behaves like the product state, while the true GHZ state maintains high parity. This isolates entanglement as the protective resource.}
+\label{fig:3-6}
+\end{figure}
+
+\noindent Comprehensive data from 1.9M shots (Figure~\ref{fig:3-7}) confirms this separation across the frequency spectrum. The distribution of parity outcomes for GHZ states is bimodally separated from product states (Figure~\ref{fig:3-8}), providing model-independent evidence of entanglement-enhanced stability.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Picture10.png}
+\caption{\textbf{Spectral consistency.} (a) Raw decay rates show GHZ (blue) consistently lower than product states (orange) across the 0.1--2.0 MHz band. (d) Protection persists across varying CPMG depths.}
+\label{fig:3-7}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Picture11.png}
+\caption{\textbf{Distributional separation.} Violin plots of parity outcomes ($n_{\mathrm{obs}}=576$) show a statistically significant gap ($21\sigma$) between GHZ (blue, protected) and product states (red, decaying).}
+\label{fig:3-8}
+\end{figure}
+
+\noindent\textit{Note.} In this dataset, multipartite entanglement is observed to suppress decoherence, as quantified by the $\sim 2.6\times$ slower decay of the GHZ state. This protective effect, measured on a 127-qubit superconducting processor, highlights entanglement not only as a computational resource but also as a potential stabilizing mechanism for quantum information in near-term hardware, and merits further investigation independently of any specific theoretical framework.
+
+\vspace{1cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Picture12.png}
+\caption{\textbf{Cross-platform check (Rigetti Ankaa-3).} The angular law is reproduced for $N=3,4$. Signal-to-noise ratio degrades for $N \geq 5$, defining the current hardware sensitivity limit.}
+\label{fig:3-9}
+\end{figure}
+\begin{table}[h]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Metric & WESH (Collision Model) & Standard Noise & Pure WDW \\
+\midrule
+Coherence Scaling ($\alpha_C$) & $ +2.498$ \textbf{(protected)} & $ +0.036$ (flat) & — \\
+Rate Scaling ($\alpha_\gamma$) & $-1.804$ \textbf{($N^{-2}$ trend)} & $-1.001$ (local) & — \\
+Purity Scaling ($\alpha_{\mathrm{pur}}$) & $-1.909$ & $-3.772$ & $\sim 0$ \\
+Thermodynamic Arrow & \textbf{Yes} & Yes & No \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Scaling metric comparison.} The WESH model uniquely combines a thermodynamic arrow of time with collective protection of coherence, distinct from both unitary evolution (Pure WDW) and standard local decoherence.}
+\label{tab:metrics}
+\end{table}
+
+\vspace{0.8cm}
+
+\section*{Epilogue}
+\addcontentsline{toc}{section}{Epilogue}
+
+\noindent The absence of time from the very equation that should describe its origin has long stood as one of the most compelling anomalies in fundamental physics. This work has attempted to resolve it from within, relying only on the 
+internal resources of a closed quantum universe governed by the Wheeler--DeWitt constraint. With all the rigour at our disposal, we have sought to capture the beauty of a self-generating mechanism: one in which time is not assumed but produced by the very dynamics it enables.
+
+\vspace{0.3cm}
+\noindent The WESH master equation emerges as the natural dissipative completion of Wheeler--DeWitt: a minimal GKSL structure in which entanglement simultaneously carries statistical symmetry and drives the emergence of physical time through eigentime collapse events. No extra dimensions, supersymmetric partners, discrete spacetime atoms, or ad hoc chronon particles have been introduced; the construction relies entirely on the kinematics of quantum theory, the canonical constraints of General Relativity, and the structure of quantum entanglement. In particular, two structural keystones work in tandem: WESH--Noether conservation, enforced at the operator level before any background metric exists, and the bootstrap closure, through which the geometry necessary to define $\hat{T}$ is generated by the field's own dynamics. The various elements of the construction (quadratic local dissipators, the bilocal difference channel, the entanglement gate, the finite-range kernel, the $N^{-2}$ collective normalization) arise as the joint consequence of a small set of constraints applied to a closed pre-geometric universe; the parameters $\nu$, $k$, $\alpha$ are structural constants determined by the self-consistency conditions of the framework.
+
+\vspace{0.3cm}
+\noindent Much remains to be done. The experimental programme is in its early stages: the collision-model simulations and the NISQ hardware campaigns reported here are consistent with the predicted $N^2$ scaling and $\cos^2\theta$ angular law, but decisive tests require larger entangled registers and architectures with qualitatively different connectivity. We are conscious of these limitations and eager to extend the empirical contact.
+
+\vspace{0.3cm}
+\noindent As for the open theoretical frontiers, near singularities and at trans-Planckian scales, the collective Markovian condition fails and the continuous emergent-time description gives way to sparse, discrete eigentime events; the stochastic bootstrap, however, persists as the primary structure, offering a native framework for the classical singularity problem. What we can claim at this stage is a degree of internal coherence between the algebraic constraints that select the generator, the dissipative dynamics that produce time, and the experimental signatures that test the construction. The fixed-point structure that connects to gravity, the horizon thermodynamics that follows from it, and the broader mathematical class to which WESH belongs (Quantum Self-Interacting Poisson Structures, QSIPS), will be developed in the forthcoming papers of this programme, of which the present work is the first.
+\vspace{1cm}
+
+\section*{Acknowledgments}
+
+\vspace{0.3cm}
+\noindent While the conceptual framework, methodology, and research direction remained with the author throughout, the work also relied on artificial intelligence tools in a cross-inferencing multi-AI workflow. The primary tools employed were those of OpenAI, Anthropic, and Google. 
+
+\vspace{0.3cm}
+\noindent I dedicate this work with gratitude to my wife Margie, to the little Elvia, and to Ka\"ira.
+
+\vspace{0.8cm}
+
+\section*{Appendix A: Flat-space realization of the kernel and the scales \texorpdfstring{$\xi$}{ξ} and \texorpdfstring{$\gamma_0$}{γ0}}
+\vspace{0.6cm}
+
+\begingroup
+\setcounter{equation}{0}
+\renewcommand{\theequation}{A.\arabic{equation}}
+\renewcommand{\theHequation}{A.\arabic{equation}}
+
+\noindent\textbf{Setup.}
+This appendix provides an explicit flat-space realization of the kernel defined abstractly in Sec.~1. The Minkowski background $\eta_{\mu\nu}$ serves as an illustrative arena to fix dimensions and verify the scaling structure; the fundamental definition of $\gamma(x,y)$ rests on the pre-geometric admissibility projector $\mathbb{1}_{N_\xi}$ of Sec.~1 and does not require a background metric. Throughout this appendix we set \(\eta=\mathrm{diag}(-,+,+,+)\) and \(\Box=\eta^{\mu\nu}\partial_\mu\partial_\nu\).
+
+\vspace{0.3cm}
+\noindent\textbf{A.1 Minimal mediator and retarded propagator.}
+We introduce a scalar mediator $\chi(x)$ with Klein--Gordon dynamics on the pre-chronogenesis sector:
+\begin{equation}
+S_\chi=\!\int d^4x\,\left[\tfrac12(\partial_\mu \chi)(\partial^\mu \chi)-\tfrac12 m_T^2 \chi^2\right].
+\tag{A.1}
+\end{equation}
+The retarded Green function \(\Delta_R\) solves
+\begin{equation}
+(\Box+m_T^2)\,\Delta_R(z)=\delta^{(4)}(z),\qquad \mathrm{supp}\,\Delta_R\subseteq\{z^0\ge 0,\ z^2\le 0\}.
+\tag{A.2}
+\end{equation}
+The correlation length associated with the mediator mass is the Compton scale
+\begin{equation}
+\xi=\frac{\hbar}{m_T c}.
+\tag{A.3}\label{eq:scales-mediatormass}
+\end{equation}
+
+\vspace{0.3cm}
+\noindent\textbf{A.2 Positive finite-range envelope and correlation four-volume.}
+The retarded propagator $\Delta_R$ fixes the \emph{support} (future light cone) and the
+range $\xi=\hbar/(m_Tc)$, but it is not used directly as a nonnegative $L^1$ weight.
+In this flat-space realization, we adopt a positive $L^1$ envelope $K_\xi$ of range $\xi$, e.g.
+\begin{equation}
+K_\xi(z)\;=\;\exp\!\Big(-\frac{z^0}{\xi}\Big)\,\Theta(z^0)\,\Theta(-z^2),
+\qquad (\,\eta=\mathrm{diag}(-,+,+,+)\,),
+\tag{A.4}
+\end{equation}
+The dependence on $z^0$ and $z^2$ is specific to this Minkowski illustration; the pre-geometric definition (Sec.~1) requires only that $K_\xi$ be positive, $L^1$-integrable, and supported on the finite-range neighbourhood $N_\xi$. Note that a positive $L^1$-integrable envelope with causal support necessarily breaks boost invariance (the future light cone has infinite Lorentz-invariant volume); the $z^0$-dependence above reflects this structural requirement, not a frame choice.
+
+\noindent Its $L^1$ norm defines the correlation four-volume
+\begin{equation}
+V_\xi \;:=\;\int d^4z\,K_\xi(z)\;=\;\mathcal O(\xi^4).
+\tag{A.4$'$}
+\end{equation}
+With the normalized measures of Eq.~\eqref{eq:measure-conventions}, this $V_\xi$ is absorbed
+at the level of the generator. (If desired one may also define the normalized kernel
+$\bar K_\xi:=K_\xi/V_\xi$ so that $\int d^4z\,\bar K_\xi=1$.)
+
+\vspace{0.3cm}
+\noindent\textbf{A.3 Collapse kernel and dimensions.}
+The collapse kernel of the main text reads \(\gamma(x,y)=\frac{\gamma_0}{N^2}\,K_\xi(x-y)\,\mathbb{1}_{N_\xi}(x,y)\) (Eq.~\eqref{eq:gamma-kernel}). With $K_\xi$ chosen positive and $L^1$-integrable, $\gamma_0$ has the dimension of a rate.
+(If one prefers an explicitly normalized kernel, define $\bar K_\xi:=K_\xi/V_\xi$ so that
+$\int d^4z\,\bar K_\xi(z)=1$.) This choice yields a positive, integrable weight and, when composed with Hermitian jump operators, preserves complete positivity of the dissipative channel.
+
+\vspace{0.3cm}
+\noindent\textbf{A.4 WESH–Noether normalization.}
+Coarse-grained consistency imposes a matching condition on the intensity scale:
+\begin{equation}
+\nu \;\simeq\; \gamma_0\,\bar C_x,\qquad 
+\bar C_x:=\frac{1}{V_\xi}\!\int d^4y\,K_\xi(x-y)\,C(\Psi;x,y),\quad 
+V_\xi=\!\int d^4z\,K_\xi(z)\sim \xi^4.
+\label{eq:nu-matching} \tag{A.5}
+\end{equation}
+Here \(C(\Psi;x,y)\) is the state-dependent bilocal factor of the WESH channel and \(V_\xi\) is the effective correlation 4–volume. With the normalized measures of Eq.~\eqref{eq:measure-conventions}, $V_\xi$ is tracked consistently through the coarse-graining; $\gamma_0$ remains the fundamental rate scale, while $\nu$ is fixed by self-consistent matching (hence not independently tunable).
+
+\vspace{0.3cm}
+\noindent\textbf{A.5 Planck anchoring.}
+With $m_T\sim M_P$ one has $\xi\sim L_P$ by (A.3). Combining this with the matching $\nu\simeq\gamma_0\,\bar C_x$ (Eq.~\eqref{eq:nu-matching}), with $\bar C_x=\mathcal O(1)$ on correlated domains, the natural anchoring is
+\begin{equation}
+\gamma_0 \;=\; \Theta_0\,t_P^{-1},\qquad \Theta_0=\mathcal O(1).
+\tag{A.6}
+\end{equation}
+Here $\Theta_0$ collects normalized cumulants and geometric factors from the time sector,
+ensuring that the anchoring introduces no additional free parameters or arbitrary scales.
+
+\vspace{0.6cm}
+\noindent\textbf{Remarks.}
+(i) The limit \(\xi\to 0\) recovers a local channel; finite \(\xi\) implements coarse-grained finite-range locality with finite correlation volume.  
+(ii) The static Yukawa form is a spatial illustration only; the operative kernel is the 4D $L^1$-integrable \(K_\xi\) with finite-range support.  
+(iii) The construction is minimal and sufficient to support the collapse kernel of Eq.~\eqref{eq:gamma-kernel} and the no–signaling statement Eq.~\eqref{eq:no-signaling}, while fixing \(\gamma_0\) via Eq.~\eqref{eq:nu-matching}.   
+(iv) The loss of boost invariance in the illustrative flat-space envelope \(K_\xi\) is not a fundamental symmetry breaking of the framework. In WESH, Lorentz symmetry is not required pointwise at the level of individual collapse events; it is recovered statistically after coarse-graining over the Poissonian ensemble of eigentime events in the emergent regime.
+\endgroup
+
+\vspace{1cm}
+
+\section*{Appendix B: Parameter \(s\), Emergence of Physical Time, and the Conceptual Limits of a Language Within Time}
+\addcontentsline{toc}{section}{Appendix~B: Parameter $s$, Physical Time, and Language Limits}
+
+\vspace{0.8cm}
+
+\subsection*{B.1 The Auxiliary Parameter $s$ and its Role in QFTT--WESH}
+\vspace{0.5cm}
+\begingroup
+\setcounter{equation}{0}
+\renewcommand{\theequation}{B.\arabic{equation}}
+\renewcommand{\theHequation}{B.\arabic{equation}}
+
+In QFTT--WESH, an intrinsic parameter $s$ is introduced to write the dynamics of a closed, timeless quantum universe. The universal state $\rho(s)$ is evolved in $s$ but $s$ is \emph{not} an observable: it is a non-physical ordering label used to formulate the GKSL evolution and to state constraints in the WDW sector. “Gauge-like’’ here means \emph{non-observable scaffolding}; No physical observable depends on the choice of the $s$-parametrization: one may view $s$ as a gauge-like ordering label (any monotone reparametrization is absorbed by the map $t(s)$). This addresses the \emph{problem of time} in a Wheeler--DeWitt universe.
+
+\vspace{0.5cm}
+
+\noindent The $s$-evolution uses the WESH generator referenced in Eq.~\eqref{eq:wesh-master}, with $\hat H_{\eff}$, $\mathcal D[\cdot]$, $L_{xy}$ and $\gamma$ given in Eqs.~\eqref{eq:superoperator}–\eqref{eq:gamma-kernel}.
+
+\vspace{0.5cm}
+
+\noindent\textit{Notation.} We adopt the operator and kernel conventions of Eqs.~\eqref{eq:superoperator}–\eqref{eq:gamma-kernel}; below we recall only the finite-range support needed for the rates.
+
+\paragraph{Finite-range kernel.}
+We keep the \emph{exponential finite-range} dissipative weight (see Eq.~\eqref{eq:gamma-kernel})
+
+\vspace{0.5cm}
+
+\[
+\gamma(x,y)=\frac{\gamma_0}{N^2}\,e^{-d_G(x,y)/\xi}\,\mathbb{1}_{N_\xi}(x,y).
+\]
+
+\noindent Here $d_G(x,y)$ denotes the graph distance on the pre-geometric
+label-space. In the IR regime where the emergent metric is available, the
+support selected by $d_G(x,y)\lesssim \xi$ coincides with the causal
+neighbourhood up to the corrections discussed in
+Remark~\ref{rem:proximity-causality}.
+
+\vspace{0.5cm}
+\noindent We reserve 'Yukawa' for the \emph{mediator} kernel
+
+\vspace{0.5cm}
+\[
+K(x,y)\ \propto\ \frac{e^{-|x-y|/\xi}}{4\pi |x-y|}\,\mathbb{1}_{N_\xi}(x,y).
+\]
+
+\vspace{0.5cm}
+
+\noindent This choice (Eq.~\eqref{eq:gamma-kernel}) avoids a short-distance $1/r$ singularity in the GKSL rates, keeps an $L^1$-integrable weight with finite correlation volume $\sim\xi^4$, and, via $\mathbb{1}_{N_\xi}$, yields emergent no-signaling in the geometric regime (Eq.~\eqref{eq:no-signaling}). 
+
+\vspace{0.8cm}
+
+\subsection*{B.2 Eigentimes and the Emergence of Physical Time $t$}
+
+\vspace{0.5cm}
+
+Eigentime events are the spontaneous collapses that make the arrow of time intrinsic. Physical time $t$ is the coarse‑grained monotone of $s$:
+
+\vspace{0.5cm}
+
+\[
+\frac{dt}{ds} \;=\; \Gamma[\Psi(s)],
+\qquad
+t(s) \;=\; \int_0^{s} \Gamma[\Psi(s')]\,ds'
+\]
+
+\vspace{0.5cm}
+
+\noindent The time-production functional is the dimensionless quantity defined in
+Eq.~\eqref{eq:gamma-decomposition} using the normalized measures of Eq.~\eqref{eq:measure-conventions}:
+\[
+\Gamma[\Psi] = \tau_{\mathrm{Eig}} \left[
+\nu \int_x \Tr\bigl[\tilde{T}^2(x)\,\rho\,\tilde{T}^2(x)\bigr]
++ \int_{xy} \gamma(x,y)\,C(\Psi;x,y)\,\Tr\bigl[L_{xy}^\dagger L_{xy}\,\rho\bigr]
+\right],
+\]
+so that $dt/ds=\Gamma[\rho]\ge 0$, with $\Gamma>0$ under nondegeneracy (Lemma~\ref{lem:Gamma-positive}), and the local/bilocal matching is set by the coarse‑grained consistency condition (Eq.~\eqref{eq:nu-matching}). Strict positivity of $\Gamma$ (monotonicity $dt/ds>0$) follows under Lemma~\ref{lem:Gamma-positive}; eigentime activation on chronogenetic segments under Lemma~\ref{lem:eigentime-activation}.
+
+\vspace{0.5cm}
+
+\paragraph{Granularity $\to$ continuum (LLN).}
+
+\vspace{0.5cm}
+~\\ 
+
+\noindent The law of large numbers links event counting to physical time:
+\begin{equation}
+t(s) \;\approx\; \tau_{\rm Eig}\,N_{\rm Eig}(s) \quad\text{(LLN)}
+\label{eq:countingtotime-relation}
+\end{equation}
+
+\noindent More precisely:
+\begin{align}
+&N_{\mathrm{Eig}}(s)=\int_0^s \frac{\Gamma[\Psi(u)]}{\tau_{\rm Eig}}\,du + M(s), \notag\\
+&t(s)=\int_0^s \Gamma[\Psi(u)]\,du, \qquad
+\frac{t(s)}{\tau_{\rm Eig}\,N_{\mathrm{Eig}}(s)} \xrightarrow{\ \mathbb{P}\ } 1. \notag
+\end{align}
+
+\vspace{0.5cm}
+
+\noindent with martingale $M(s)$ and $\tau_{\rm Eig}\equiv 1/\nu$. Hence, when $\mathbb{E}[N_{\mathrm{Eig}}]\gg1$, discrete eigentimes smooth to classical $t$ by the law of large numbers.
+
+\vspace{0.5cm}
+
+\paragraph{GKSL form and fourth moment.}
+In the dimensionless normalization of Eq.~\eqref{eq:gamma-decomposition},
+the local contribution to $\Gamma[\Psi]$ may be written either as the GKSL
+trace form $\Tr[\tilde T^{2}\rho\,\tilde T^{2}]$ or as the fourth moment
+$\Tr[\tilde T^{4}\rho]$; the two are identical by cyclicity of the trace.
+We retain the former notation because it is the form inherited directly
+from the dissipative generator \eqref{eq:wesh-master}.
+
+\vspace{0.5cm}
+
+\paragraph{Example (translation rule $s\to t$).}
+A temporalized sentence like “collapse occurs \emph{before} the measurement’’ means: there exist $s_{\mathrm{col}}<s_{\mathrm{meas}}$; mapping by \eqref{eq:s-to-t-bootstrap} gives $t_{\mathrm{col}}<t_{\mathrm{meas}}$. “Before/after’’ acquires meaning only \emph{after} this mapping.
+
+\vspace{0.8cm}
+
+\subsection*{B.3 Comparison to Other Frameworks and Interpretations}
+
+\vspace{0.5cm}
+
+Having established the QFTT--WESH mechanism for time emergence, it is natural to ask how this approach relates to other frameworks addressing the problem of time in quantum gravity. Since this appendix defines the auxiliary parameter $s$, the eigentime mechanism, and the $s \to t$ bootstrap, it is the appropriate place to clarify what each approach \emph{assumes} versus what it \emph{derives}.
+
+\vspace{0.3cm}
+\noindent Existing frameworks can be grouped by their treatment of time:
+
+\begin{itemize}[leftmargin=1.2cm, itemsep=0.15cm]
+\item[\textbf{(A)}] \textit{Time as external parameter.} Standard quantum mechanics, GRW (1986), CSL (Pearle, 1989), and Penrose OR (1996) treat $t$ as an assumed external time parameter (not derived from a timeless constraint). Collapse models introduce stochastic, time-asymmetric dynamics but do not address black-hole entropy.
+
+\item[\textbf{(B)}] \textit{Time as relational/frozen.} Page \& Wootters (1983) address the Wheeler--DeWitt frozen-time problem by treating time as a conditional correlation within a globally static state. The approach is unitary and does not produce an intrinsic arrow of time or dynamical gravity.
+
+\item[\textbf{(B$'$)}] \textit{Time as thermal flow.} The Connes--Rovelli thermal time hypothesis (TTH, 1994) identifies physical time with the modular flow of a KMS state on a von Neumann algebra. The proposal is conceptually elegant but requires a preferred thermal state as input; in QFTT--WESH, the KMS structure is not assumed but emerges at the fixed point of the dissipative dynamics, in the near-horizon regime.
+
+\item[\textbf{(C)}] \textit{Emergent gravity from thermodynamic or holographic postulates.} Jacobson (1995, 2016), Verlinde (2011), and holographic approaches (AdS/CFT, RT, ER=EPR) relate or encode aspects of gravitational dynamics and geometry to entropy or entanglement considerations, assuming either an area/entropy postulate or a microscopic notion of time as input.
+\end{itemize}
+
+\medskip
+\noindent Table~\ref{tab:framework-comparison} compares these approaches along four axes: treatment of time, collapse mechanism, arrow of time, and horizon thermodynamics.
+
+\vspace{0.3cm}
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{
+  >{\raggedright\arraybackslash}p{0.20\linewidth}
+  >{\raggedright\arraybackslash}p{0.22\linewidth}
+  >{\raggedright\arraybackslash}p{0.20\linewidth}
+  >{\raggedright\arraybackslash}p{0.16\linewidth}
+  >{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Framework} & \textbf{Treatment of Time} & \textbf{Collapse Mechanism} & \textbf{Arrow of Time} & \textbf{$S_{\rm BH}$ Status}\\
+\midrule
+Page--Wootters (1983) & Relational (timeless global constraint) & None (unitary) & Not intrinsic & Not addressed \\
+Connes--Rovelli TTH (1994) & Modular flow of KMS state & None (algebraic) & Thermal (assumed) & Not addressed \\
+GRW (1986); CSL (1989) & External parameter $t$ & Stochastic collapse (phenomenological constants) & Built-in & Not addressed \\
+Penrose OR (1996) & Assumed parameter (not WDW-derived) & Gravity-related objective reduction & Built-in & Not addressed \\
+Jacobson (1995, 2016) & Semiclassical (local horizons/balls) & None (equilibrium condition) & Thermodynamic & \textbf{Input} (area/entanglement) \\
+Verlinde (2011) & Assumes microscopic time & None (entropic-force picture) & Thermodynamic & \textbf{Input} (holographic) \\
+AdS/CFT, ER=EPR & Boundary QFT time & None (unitary boundary) & State-dependent & Computed holographically \\
+\textbf{QFTT--WESH} & \textbf{Emergent} via eigentimes & \textbf{State-dependent} $\Gtime$ & \textbf{Intrinsic} & \textbf{Derived} (future work)\\
+\bottomrule
+\end{tabularx}
+\caption{Comparison of selected approaches to the problem of time and black-hole entropy. Among the frameworks listed, QFTT--WESH is the only one that starts from a timeless Wheeler--DeWitt constraint and derives both the time-emergence mechanism and the structure of the dissipative generator within a single chain, without postulating a microscopic time as an independent input. The infrared consequences (Einstein dynamics and horizon thermodynamics) lie beyond the present scope.}
+\label{tab:framework-comparison}
+\end{table}
+
+\vspace{0.5cm}
+
+\noindent With this landscape clarified, Sec.~B.4 summarizes the technical status of the $s \to t$ construction.
+
+\vspace{0.8cm}
+
+\subsection*{B.4 Concluding Remarks}
+\vspace{0.5cm}
+
+\noindent\textit{Finite-$N$ imprint.}
+Residual discreteness at finite $N$ should leave a measurable imprint in the intensity channel: the variance and cross-correlation structure of $\Gamma$ (Eqs.~\eqref{eq:local-hazard}, \eqref{eq:gamma-decomposition}, 
+\eqref{eq:Gamma-bilocal}) would provide a direct handle on the granularity of the eigentime mesh and on the interaction range~$\xi$.
+
+\smallskip
+\noindent\textit{Bridge to gravity.}
+At the stationary fixed point selected by the WESH monotone, the gradient-alignment condition $\partial_\mu\tau = k\,\partial_\mu\Phi$ holds. Combined with hidden-sector cancellation, this yields the emergent Einstein equation with matter. The full derivation lies beyond the present scope.
+
+\smallskip
+\noindent\textit{Pre-geometric consistency (App.~D).}
+The foundational constraint is WESH--Noether path independence, not thermodynamic detailed balance; the latter emerges only in the near-horizon KMS regime, after physical time has crystallized.
+
+\vspace{0.8cm}
+
+\subsection*{B.5 Conceptual Limits and the Paradox of Inherited Language}
+
+\vspace{0.5cm}
+Inevitably, a theory like QFTT--WESH, aiming to position itself upstream of the 4 dimensions, collides with the epistemological problem of using a language within the temporal line. Concepts such as `before', `after', `cause', and `effect' (but even more implicit assumptions and morphemes) are foundational to our linguistic and logical structures; yet the theory must describe a reality that exists at a more fundamental level than their emergence. At the same time, we identify a taxonomic challenge, implicitly calling for the development of a new mathematical language, perhaps more circular, topological, or inherently atemporal. In the present work, such tension forces a deliberate methodological strategy: to remain communicable, the theory must adopt a temporalized narrative for its exposition, even as its formalism in part describes an atemporal process. The auxiliary parameter $s$ is the controlled semantic scaffold, a \emph{necessary conceptual unit} that dissolves once the formalism is established, essential to navigate this paradox. Operationally, any temporal sentence admits an $s$-label version (ordering only), which is then translated to a $t$-statement via Eq.~\eqref{eq:s-to-t-bootstrap}; the LLN relation~\eqref{eq:countingtotime-relation} above justifies the continuous limit for macroscopic descriptions. This keeps the exposition communicable while ensuring that predictions depend solely on the emergent, measurable $t$. Here lies the epistemological challenge, but at the same time the beauty of this theory.
+
+\vspace{0.3cm}
+\noindent It is precisely this tension that has motivated a parallel line of investigation, already underway, into what we call Quantum Self-Interacting Poisson Structures (QSIPS). The guiding intuition is that the state-dependent dissipative dynamics at the heart of WESH may not be a patched modification of existing frameworks but rather the expression of a more primordial mathematical structure, one in which feedback-dependent intensity processes are not anomalies requiring linearization but constitutive features of the process class itself. Whether such a structure can absorb the linguistic paradox identified above, by providing a formalism that is inherently atemporal at its foundations, remains an open and fascinating question.
+\endgroup
+
+\vspace{1cm}
+
+\section*{Appendix C: Heuristic derivations for $N$–scaling}
+\label{app:heuristics}
+
+\noindent\textbf{Setup.} The WESH bilocal channel uses a finite-range, normalized kernel with prefactor $N^{-2}$ (Eq.~\eqref{eq:gamma-kernel}); the intensity channel is quadratic in $\hat T^2$ (Eq.~\eqref{eq:gamma-decomposition}). The mediator kernel entering $\Phi$ is Yukawa (Appendix~A), with range $\xi$ and correlation time $\tau_{\corr}\sim \xi/c$ (independent of $N$).
+
+\vspace{0.6em}
+\noindent\textbf{H1 — Pairwise normalization.} Let the effective pair couplings be $\gamma_{ij}=\gamma_0 N^{-2} w_{ij}$ with $w_{ij}=\mathcal O(1)$ and $\sum_{i<j} w_{ij}=\Theta(N^2)$ (bounded, finite-range weights; equivalently $\langle w\rangle=\mathcal O(1)$ over $\Theta(N^2)$ pairs). Then
+\[
+\sum_{j\ne i}\gamma_{ij}=\mathcal O(\gamma_0/N),
+\qquad
+\sum_{i<j}\gamma_{ij}=\mathcal O(\gamma_0).
+\]
+Interpretation: the per–site collapse power scales as $1/N$ while the total power remains $\mathcal O(1)$, consistent with the $N^{-2}$ prefactor in Eq.~\eqref{eq:gamma-kernel}.
+
+\vspace{0.6em}
+\noindent\textbf{H2 — Local hazards from block averaging.} For block averages $X_B=\frac{1}{|B|}\sum_{i\in B}X_i$ (with $X_i$ a bounded local contribution to the $\hat T^2$-intensity) and short-range correlations (range $\xi$),
+\[
+\mathrm{Var}(X_B)=\mathcal O(|B|^{-1}).
+\]
+Under WESH weighting, the relevant block tracks the entangled set size, $|B|\sim N$. Because the intensity channel is quadratic in $\hat T^2$ (Eq.~\eqref{eq:gamma-decomposition}), the coarse–grained hazard inherits a square on the variance,
+\[
+\lambda \;\propto\; \mathrm{Var}(X_B)^2 \;=\; \mathcal O(N^{-2}).
+\]
+Thus $\lambda=\mathcal O(N^{-2})$ implies $\tau_{\mathrm{coh}}\sim\lambda^{-1}\propto N^2$, while the per-site rate $\Gamma_i\sim \gamma_0/N$ aligns with H1.
+
+\vspace{0.6em}
+\noindent\textbf{H3 — Correlation time vs.\ eigentime spacing.} The kernel range fixes $\tau_{\mathrm{corr}}\sim \xi/c$ (independent of $N$), while the effective macroscopic inter-event spacing grows under H1–H2 as $\tau_{\mathrm{Eig}}^{(\mathrm{eff})}\propto N^{2}$ (see Lemma~\ref{lem:contraction}). Hence
+\[
+\frac{\tau_{\corr}}{\tau_{\rm Eig}^{(\mathrm{eff})}} \;=\; \mathcal O(N^{-2}),
+\]
+placing the dynamics deep in the collective Markov window for large $N$.
+
+\vspace{0.6em}
+\noindent\textbf{Consequence.} H1–H3 jointly underwrite the collective–stability law $\tau_{\coh}(N)\propto N^{2}$ and the effective small-parameter regime $\tau_{\corr}/\tau_{\rm Eig}^{(\mathrm{eff})}=\mathcal O(N^{-2})$ used in the variational analysis.
+
+\vspace{1cm}
+
+\section*{Appendix D — WESH--Noether as Pre-Geometric Path Independence}
+\addcontentsline{toc}{section}{Appendix D — WESH--Noether as Pre-Geometric Path Independence}
+\label{app:wesh-noether-pregeom}
+
+\begingroup
+\setcounter{equation}{0}
+\renewcommand\theequation{D.\arabic{equation}}
+\renewcommand{\theHequation}{D.\arabic{equation}}
+\setcounter{theorem}{0}
+\renewcommand\thetheorem{D.\arabic{theorem}}
+\renewcommand{\theHtheorem}{D.\arabic{theorem}}
+\setcounter{corollary}{0}
+\renewcommand\thecorollary{D.\arabic{corollary}}
+\renewcommand{\theHcorollary}{D.\arabic{corollary}}
+\setcounter{remark}{0}
+\renewcommand\theremark{D.\arabic{remark}}
+\renewcommand{\theHremark}{D.\arabic{remark}}
+\setcounter{lemma}{0}
+\renewcommand\thelemma{D.\arabic{lemma}}
+\renewcommand{\theHlemma}{D.\arabic{lemma}}
+
+\paragraph{Context.}
+The Wheeler--DeWitt sector carries no physical time, metric, or thermodynamics. The foundational constraint developed here is a \emph{pre-geometric} conservation law compatible with the WESH generator (\eqref{eq:wesh-master}). All references to ``flow'' denote ordinal evolution in state space; no temporal structure is assumed prior to the bootstrap.
+
+\begin{remark}[Static vs dynamic in the pre-geometric regime]
+\label{rem:static-dynamic}
+In the WDW sector, states are ordered by the Lyapunov functional $\mathcal{M}[\rho]$, global charges $\langle\hat{Q}_{\rm tot}\rangle$ remain constant along any WESH flowline, and the gradient $\nabla_\rho\mathcal{M}$ defines potential streamlines. Physical time emerges when this configuration is \emph{actualized} via the bootstrap $dt/ds=\Gamma[\Psi]>0$, converting potential order into temporal flow.
+\end{remark}
+
+
+\vspace{0.3cm}
+\subsection*{D.1 Operator formulation of pre-geometric Noether}
+\vspace{0.3cm}
+
+\noindent Let $\mathcal L$ be the WESH GKSL generator (see \eqref{eq:wesh-master}) and $\mathcal L^\dagger$ its adjoint on observables:
+\[
+\mathcal L^\dagger[A] \;=\; -\,i[H_{\mathrm{eff}},A] \;+\; \nu\!\int_x\!\mathcal D^\dagger_{\hat T^2(x)}[A] \;+\; \int_{xy}\gamma(x,y)\,C(\Psi;x,y)\,\mathcal D^\dagger_{L_{xy}}[A],
+\]
+with $\int_x,\int_{xy}$ as in Eq.~\eqref{eq:measure-conventions}, $\mathcal D^\dagger_{L}[A]= L^\dagger A L - \tfrac12\{L^\dagger L, A\}$, and $L_{xy}=\hat T^2(x)-\hat T^2(y)$ (Hermitian).
+
+\vspace{0.5cm}
+\noindent\textbf{Definition D.1 (Pre-geometric WESH--Noether).}
+For every global conserved charge $\hat Q_{\rm tot}$,
+\begin{equation}
+\mathcal L^\dagger[\hat Q_{\rm tot}] \;=\; 0 \,.
+\label{eq:H-noether}
+\end{equation}
+This is equivalent to $\tfrac{d}{ds}\langle \hat Q_{\rm tot}\rangle=0$ for all $\rho(s)$. The kernel weight is exponential with finite range $\xi$ (see \eqref{eq:gamma-kernel}).
+
+\begin{remark}[Self-consistent physical subset]
+The “physical subset” is \emph{not} pre-imposed. Operationally, it is the basin of attraction of the bootstrap fixed point(s) $\rho^\star$ that (i) minimize the Lyapunov functional (Lemma~\ref{lem:contraction}), (ii) satisfy WESH--Noether at the fixed point, and (iii) are reached by iterating the bootstrap from RAQ-physical initial conditions (i.e., they belong to the basin of attraction).
+WESH--Noether thus acts as a \emph{local structural constraint} of the (state-dependent) generator throughout the evolution, without a pre/post-bootstrap dichotomy.
+\end{remark}
+
+\begin{theorem}[WESH--Noether]
+\label{thm:wesh-noether-pregeom}
+Let $\mathcal L$ be a GKSL generator governing evolution in the atemporal ordering parameter $s$ within the Wheeler--DeWitt sector, with Heisenberg adjoint $\mathcal L^\dagger$. Assume Hermitian jump operators $L_\alpha \in \{\hat T^2(x),\,L_{xy}=\hat T^2(x)-\hat T^2(y)\}$ and the mild spectral regularity of Proposition~D.2. Then, for any global charge operator $\hat Q_a$, the following are equivalent:
+\begin{equation*}
+\mathcal L^\dagger[\hat Q_a]=0 
+\quad\Longleftrightarrow\quad
+[H_{\mathrm{eff}},\hat Q_a]=0\ \ \text{and}\ \ [L_\alpha,\hat Q_a]=0\ \ \text{for all }\alpha\text{ with nonzero rate}.
+\end{equation*}
+No geometric or thermal structure is presupposed.
+\end{theorem}
+
+\begin{corollary}[Path independence / $s$-conservation]\label{cor:wesh-path-indep}
+For all states $\rho(s)$ and all $a$, $\tfrac{d}{ds}\langle \hat Q_a\rangle=0$. Equivalently, the charge one-form $\omega_a[\rho]:=\Tr(\hat Q_a\,\mathcal L[\rho])\,ds$ is exact (zero holonomy).
+\end{corollary}
+
+\begin{remark}[Specialization to the KMS wedge]
+In the near-horizon Rindler wedge, Modular--KMS spectral regularity implies the hypothesis of Prop.~D.2; hence the equivalence holds there verbatim.
+\end{remark}
+
+\vspace{0.3cm}
+
+\subsection*{D.2 Necessary \& sufficient algebraic conditions (Hermitian Lindblad structure)}
+\vspace{0.3cm}
+
+\noindent In the present framework the Lindblad operators are Hermitian, $L\in\{\hat T^2(x),\,L_{xy}\}$, and the standard GKSL identity
+\[
+\Tr\!\big(A\,\mathcal D[L]\rho\big)=\tfrac12\,\big\langle\,L^\dagger[A,L]+[L^\dagger,A]L\,\big\rangle
+\]
+yields, for Hermitian $L$,
+\begin{equation}
+\mathcal D_{L}^\dagger[\hat Q]\;=\;-\tfrac12\,[L,[L,\hat Q]].
+\label{eq:H-double-comm}
+\end{equation}
+
+\noindent\textbf{Proposition D.2 (Equivalence under mild spectral regularity).}\label{prop:G2}
+\vspace{0.3cm}
+~\\
+
+\noindent Assume:
+\begin{enumerate}[label=(\roman*),leftmargin=1.9cm,itemsep=0.2cm]
+\item $\hat{Q}_{\rm tot}$ is bounded (or the identities are understood as quadratic forms on a common invariant core);
+\item Hermitian jump set $L\in\{\hat T^2(x),\,L_{xy}\}$ in the generator \eqref{eq:wesh-master};
+\item (\emph{Mild spectral regularity}) For each such $L$, the global charge $\hat Q_{\rm tot}$ is block–diagonal in the spectral decomposition of $L$ (equivalently: $\hat Q_{\rm tot}$ commutes with the spectral projectors of $L$ on the relevant support).
+\end{enumerate}
+Then the pre–geometric WESH–Noether condition \eqref{eq:H-noether} holds \emph{iff}
+\begin{equation}
+[H_{\mathrm{eff}},\hat Q_{\rm tot}] = 0,\qquad
+[\hat T^2(x),\hat Q_{\rm tot}] = 0\ \ \forall x,\qquad
+[L_{xy},\hat Q_{\rm tot}] = 0\ \ \forall x,y.
+\label{eq:H-comm-all}
+\end{equation}
+
+\vspace{0.3cm}
+\begin{proof}
+\emph{Sufficiency.} If \eqref{eq:H-comm-all} holds, each dissipative term in $\mathcal L^\dagger[\hat Q_{\rm tot}]$ vanishes by \eqref{eq:H-double-comm}, and the Hamiltonian part yields $[H_{\mathrm{eff}},\hat Q_{\rm tot}]=0$, hence \eqref{eq:H-noether}.
+
+\vspace{0.3cm}
+\noindent\emph{Necessity.}
+Assume $\mathcal L^\dagger[\hat Q_{\rm tot}]=0$ with $\hat Q_{\rm tot}=\hat Q_{\rm tot}^\dagger$.
+Take the Hilbert--Schmidt pairing with $\hat Q_{\rm tot}$:
+\[
+0=\Tr\!\big(\hat Q_{\rm tot}\,\mathcal L^\dagger[\hat Q_{\rm tot}]\big).
+\]
+The Hamiltonian contribution vanishes by cyclicity,
+$\Tr\!\big(\hat Q_{\rm tot}[-iH_{\rm eff},\hat Q_{\rm tot}]\big)=0$.
+For Hermitian Lindblad operators, one has
+\[
+\Tr\!\big(\hat Q_{\rm tot}\,\mathcal D_L^\dagger[\hat Q_{\rm tot}]\big)
+=-\tfrac12\,\Tr\!\big([L,\hat Q_{\rm tot}]^\dagger [L,\hat Q_{\rm tot}]\big)\le 0.
+\]
+Using $\nu>0$ and $\gamma(x,y)\,C(\Psi;x,y)\ge 0$, this yields
+\begin{align*}
+\int_x \Tr\!\big([\hat T^2(x),\hat Q_{\rm tot}]^\dagger[\hat T^2(x),\hat Q_{\rm tot}]\big) &= 0, \\[6pt]
+\int_{xy}\gamma(x,y)\,C(\Psi;x,y)\,
+\Tr\!\big([L_{xy},\hat Q_{\rm tot}]^\dagger[L_{xy},\hat Q_{\rm tot}]\big) &= 0,
+\end{align*}
+hence $[\hat T^2(x),\hat Q_{\rm tot}]=0$ for every local label $x$.
+Since the local term is weighted by the strictly positive coefficient $\nu>0$
+and each summand is nonnegative, the bilocal commutant then follows by
+linearity for \emph{all} pairs:
+\[
+[L_{xy},\hat Q_{\rm tot}]
+=[\hat T^2(x)-\hat T^2(y),\,\hat Q_{\rm tot}]
+=[\hat T^2(x),\hat Q_{\rm tot}]-[\hat T^2(y),\hat Q_{\rm tot}]
+=0-0=0.
+\]
+Plugging back into $\mathcal L^\dagger[\hat Q_{\rm tot}]=0$ leaves
+$-i[H_{\rm eff},\hat Q_{\rm tot}]=0$, hence $[H_{\rm eff},\hat Q_{\rm tot}]=0$.
+\end{proof}
+
+\begin{remark}[Athermal generality]
+Proposition~D.2 is pre-geometric and athermal: no KMS structure, thermal equilibrium, or wedge geometry is required. The proposition relies solely on mild spectral regularity of the Lindblad operators in the kinematical Hilbert space. The near-horizon Rindler wedge provides a concrete regime where the hypothesis of Proposition~D.2 is satisfied; the wedge analysis is thus a specialization of the general algebraic framework established here, not an alternative foundation.
+\end{remark}
+
+\begin{lemma}[Algebraic rigidity of T-neutrality]\label{lem:algebraic-rigidity}
+Let $\hat T(x)$ be self-adjoint and let $\hat Q_{\rm tot}$ satisfy the
+T-neutrality condition $[\hat T(x),\hat Q_{\rm tot}]=0$ for all $x$. Then:
+\begin{enumerate}[label=(\roman*),leftmargin=1.5cm,itemsep=0.15em]
+\item $[\hat T^{2}(x),\hat Q_{\rm tot}]=0$ for all $x$;
+\item $[L_{xy},\hat Q_{\rm tot}]=0$ for all pairs $(x,y)$;
+\item $\hat Q_{\rm tot}$ commutes with the spectral projectors of $\hat T^{2}(x)$ for every $x$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\emph{(i)} By the derivation identity for self-adjoint operators,
+\[
+[\hat T^{2}(x),\hat Q_{\rm tot}]
+=\hat T(x)[\hat T(x),\hat Q_{\rm tot}]
++[\hat T(x),\hat Q_{\rm tot}]\hat T(x)=0.
+\]
+\emph{(ii)} By linearity,
+\[
+[L_{xy},\hat Q_{\rm tot}]
+=[\hat T^{2}(x),\hat Q_{\rm tot}]
+-[\hat T^{2}(y),\hat Q_{\rm tot}]=0.
+\]
+\emph{(iii)} Since $\hat T^{2}(x)$ and $\hat Q_{\rm tot}$ are commuting
+self-adjoint operators, the joint spectral theorem implies that
+$\hat Q_{\rm tot}$ commutes with every spectral projector of $\hat T^{2}(x)$.
+\end{proof}
+
+\begin{remark}[Regularity note]
+The mild spectral regularity assumed in Proposition~D.2 is therefore not a
+statistical hypothesis regarding generic perturbations, but an exact
+algebraic consequence of T-neutrality
+(Lemma~\ref{lem:algebraic-rigidity}). It is strictly weaker than assuming
+any thermal structure and does \emph{not} presuppose the emergence of
+physical time $t$.
+\end{remark}
+
+\begin{remark}[T-neutrality as a consistency requirement]
+If $[\hat T,\hat Q_{\rm tot}]\neq0$, the state–dependent coefficients of the generator induce a charge–dependent intensity; the ordinal speed $dt/ds$ becomes background–dependent, spoiling the universality of physical time. Moreover, along different state–space paths one generically sources $\hat Q_{\rm tot}$, violating path independence. Hence T–neutrality is not an external postulate but the unique choice compatible with path independence, universality of emergent time, and no–signaling.
+\end{remark}
+
+\begin{remark}[Operator–level vs expectation–level conservation]
+The WESH–Noether condition \eqref{eq:H-noether} is an operator–level statement, not merely conservation of expectations. Operator–level conservation guarantees zero holonomy of the charge one–form on state space; conserving only $\langle\hat Q_{\rm tot}\rangle$ allows hidden anomalies in the commutant that re–emerge under block decompositions or sub–sector measurements, obstructing the emergence of a unique geometry.
+\end{remark}
+
+\vspace{0.3cm}
+\subsection*{D.3 From potential order to geometry (bridge to alignment)}
+\vspace{0.3cm}
+Let $\mathcal M[\rho]$ be the WESH Lyapunov functional (strictly convex in the regime of interest; see Lemma~\ref{lem:contraction}). Consider the constrained minimization ``minimize $\mathcal M$ subject to WESH--Noether''. At a stationary point of this constrained problem, the classical Karush--Kuhn--Tucker (KKT) optimality conditions (Karush, 1939; Kuhn \& Tucker, 1951) require that the state-space gradient of the objective function lies in the span of the constraint gradients.
+
+Formally, the functional derivative of the KKT Lagrangian,
+\[
+\mathcal{L}_{\mathrm{KKT}}[\tau]
+=\mathcal{M}[\tau]
+-\sum_a \lambda_a\,\langle\hat Q_a\rangle,
+\]
+must vanish, yielding the Euler--Lagrange stationarity condition:
+\[
+\frac{\delta\mathcal{M}}{\delta\tau(x)}
+=\sum_a\lambda_a\,\frac{\delta\langle\hat Q_a\rangle}{\delta\tau(x)}.
+\]
+For the quadratic structure of $\mathcal M$ (in $\|\partial_\mu\tau\|^2$) and the bilocal Noether constraint weighted by the Yukawa-mediated entanglement potential, the functional derivative of the constraint sector isolates exactly the potential $\Phi(x)$. This forces the field-level relation $\partial_\mu\tau \parallel \partial_\mu\Phi$, i.e.:
+
+\begin{equation}
+\partial_\mu \tau \;=\; k\,\partial_\mu \Phi,
+\qquad
+\Phi(x)=\!\int\! G_\xi(x-y)\,C(\rho^\star;x,y)\,d^4y,
+\label{eq:alignmentG}
+\end{equation}
+i.e.\ the pre-geometric consistency crystallizes into an emergent metric relation.
+
+\begin{remark}[Existence vs uniqueness]\label{rem:H-unique}
+WESH--Noether ensures \emph{existence} of a stationary state (Lemma~\ref{lem:contraction}; Schauder--Tychonoff) but not uniqueness. Uniqueness follows from additional physical constraints:
+\begin{enumerate}[label=(\roman*),leftmargin=1.5cm,itemsep=0.2em]
+\item Finite-range support of $\gamma(x,y)$ (emergent no-signaling at the fixed point);
+\item Finite correlation time $\tau_{\rm corr}\sim\xi/c$ (Markov window);
+\item Cross-horizon connectivity (null-plane Markov mixing).
+\end{enumerate}
+These are not fine-tunings but \emph{consistency requirements} for the scaling hypothesis $\xi\simeq L_P$. Together with WESH--Noether, they select the unique fixed point where gradient alignment \eqref{eq:alignmentG} holds.
+\end{remark}
+
+\subsection*{D.4 Empirical signatures}
+\vspace{0.3cm}
+The pre-geometric constraint yields distinct empirical targets:
+\begin{enumerate}[leftmargin=1.2em,itemsep=0.25em]
+\item \textbf{Core: collective stability.} The coherence time scales as $\tau_{\mathrm{coh}}(N)\propto N^2$, reflecting $N_\xi$-local mixing under the WESH constraint.
+\item \textbf{Diagnostic: angular dependence.} The decoherence rate obeys $\overline\Gamma\,[1+\varepsilon\cos^2\theta]$ with $\varepsilon=(a_2/a_0)\,(G_2/G_0)$, factorizing state anisotropy and device geometry.
+\item \textbf{Horizon thermodynamics.} Near-horizon KMS structure is expected to yield a thermodynamic law (area term and logarithmic corrections) without external parameters; this analysis lies beyond the present scope.
+\end{enumerate}
+Each item probes a different layer of the construction: collective stability and black-hole thermodynamics test core structural aspects of WESH (including the IR bridge to gravity), while the angular dependence provides a diagnostic check of finite-range connectivity and state/geometry factorization.
+\vspace{0.3cm}
+\subsection*{D.5 Physical meaning and scope}
+\vspace{0.3cm}
+\emph{Meaning.} Eqs.~\eqref{eq:H-noether}–\eqref{eq:H-comm-all} formalize the “no-vorticity” intuition without thermodynamic inputs: in the minimal GKSL representation each Hermitian Lindblad channel commutes with the global charges, hence the WESH flow cannot generate spurious global sources.  
+\emph{Scope.} Detailed balance is \emph{derived} at the emergent level (near-horizon KMS), not assumed.
+
+\paragraph{Laminar-flow analogy.}
+Imagine a stationary laminar fluid where the velocity field is globally time-independent yet locally directed along well-defined streamlines: this captures the pre-geometric WESH structure in state space. "No‑vorticity'' corresponds to path independence of global charges (zero holonomy of $\omega_Q$); stagnation points correspond to eigentimes where geometric structure crystallizes. Physical time $t$ then emerges as the local flow speed via $dt/ds=\Gamma[\Psi]$, actualizing the potential streamlines into worldlines. This clarifies why classical detailed balance cannot be imposed at this stage: temperature and KMS structure arise only after the flow has crystallized into a geometry.
+
+
+
+\paragraph{RAQ compatibility.}
+The WESH dynamics preserves the RAQ-physical subspace: T-neutrality and Hermitian jumps ensure that the generator neither sources nor leaks gauge constraints. The global WESH--Noether condition is the observable face of this preservation in the emergent sector.
+\endgroup
+
+\vspace{1cm}
+
+\section*{Appendix E — CP/TP preservation and no–signaling in WESH}
+\addcontentsline{toc}{section}{Appendix E — CP/TP preservation and no–signaling in WESH}
+\label{app:CPTP}
+
+\begingroup
+\setcounter{equation}{0}
+\renewcommand\theequation{E.\arabic{equation}}
+\renewcommand{\theHequation}{E.\arabic{equation}}
+\setcounter{theorem}{0}
+\renewcommand\thetheorem{E.\arabic{theorem}}
+\renewcommand{\theHtheorem}{E.\arabic{theorem}}
+\setcounter{lemma}{0}
+\renewcommand\thelemma{E.\arabic{lemma}}
+\renewcommand{\theHlemma}{E.\arabic{lemma}}
+\setcounter{remark}{0}
+\renewcommand\theremark{E.\arabic{remark}}
+\renewcommand{\theHremark}{E.\arabic{remark}}
+\setcounter{corollary}{0}
+\renewcommand\thecorollary{E.\arabic{corollary}}
+\renewcommand{\theHcorollary}{E.\arabic{corollary}}
+\setcounter{proposition}{0}
+\renewcommand\theproposition{E.\arabic{proposition}}
+\renewcommand{\theHproposition}{E.\arabic{proposition}}
+
+\vspace{0.5cm}
+\noindent\textbf{Setting.}
+Consider the pre–geometric master equation \eqref{eq:wesh-master} with Hermitian channels
+\[
+L_\alpha\in\big\{\hat T^2(x),\ L_{xy}=\hat T^2(x)-\hat T^2(y)\big\},
+\]
+and scalar rates
+\[
+c_\alpha(s)\in\{\ \nu,\ \gamma(x,y)\,C(\Psi;x,y)\ \},\qquad 0\le C<1,\ \gamma\ge0,
+\]
+assumed bounded and piecewise continuous in $s$ (hence strongly measurable and uniformly bounded on compact intervals). Here $C(\Psi;x,y)$ depends only on \emph{local/bilocal reductions}
+\[
+\rho_x=\Tr_{x^c}\rho,\qquad \rho_y=\Tr_{y^c}\rho,\qquad \rho_{xy}=\Tr_{(xy)^c}\rho,
+\]
+through bounded, Borel–measurable functionals that are Lipschitz in the trace norm. The normalized measures $\int_x$ and $\int_{xy}$ (Eq.~\eqref{eq:measure-conventions}) implement a coarse-graining over correlation cells of four-volume $V_\xi = \mathcal{O}(\xi^4)$. The effective theory at the cell scale $\xi \simeq L_P$ operates subject to a UV-cutoff that restricts the physical state space to a sector of bounded local energy density. Within this truncated effective description, the cell-averaged jump operators $\hat{T}^2(x)$ and $L_{xy}$ act as bounded operators on the relevant physical domain. The finite-range kernel $\gamma(x,y)$ has finite $L^1$ norm $\|K_\xi\|_{L^1} \sim V_\xi = \mathcal{O}(\xi^4)$. The GKSL exponentiation in the proof below is therefore well-defined at every level of the construction. The effective Hamiltonian $H_{\mathrm{eff}}$ is self–adjoint so that $-i[H_{\mathrm{eff}},\cdot]$ generates a strongly continuous one–parameter group of trace–norm isometries on the trace class.
+
+\begin{theorem}[CP/TP preservation for the nonlinear WESH evolution]\label{thm:H-CPTP}
+Under the above assumptions, for any $s\ge0$ the non–autonomous evolution $E_s:\rho_0\mapsto\rho(s)$ generated by \eqref{eq:wesh-master} preserves positivity and unit trace; each frozen micro-step is CPTP, and the product-integral limit preserves these properties.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Partition $[0,s]$ into $0=s_0<\dots<s_N=s$. Over each micro-interval, the scalar rates are frozen at the left endpoints, yielding the linear GKSL generator
+\[
+\mathcal L_k(\cdot)=-\,i[H_{\mathrm{eff}},\cdot]+\nu\!\int_x\!\mathcal D[\hat T^2(x)](\cdot)
++\!\int_{xy}\gamma(x,y)\,C(\Psi_{s_k};x,y)\,\mathcal D[L_{xy}](\cdot).
+\]
+Since each $\mathcal L_k$ is a standard linear GKSL operator with Hermitian jumps and nonnegative rates, the map $\Phi_k:=\exp(\Delta s_k\,\mathcal L_k)$ is CPTP. Hence
+\[
+E_s^{(N)}=\Phi_{N-1}\circ\cdots\circ\Phi_0
+\]
+is CPTP by composition.
+
+\noindent\textit{Non-autonomous convergence.}
+Assume $s\mapsto c_\alpha(s)$ are strongly measurable and uniformly bounded, and that the map $\rho\mapsto C(\Psi;x,y)$ is Lipschitz in the trace norm via the reduced states. Then the product-integral scheme with frozen coefficients converges strongly to the unique non-autonomous evolution solving \eqref{eq:wesh-master}. Strong limits of CPTP maps remain completely positive and trace-preserving, hence $E_s$ preserves positivity and unit trace.
+\end{proof}
+
+\begin{corollary}[System–ancilla consistency]\label{cor:H-ancilla}
+For any ancilla $A$ and initial $\rho_{SA}$, $(E_s\!\otimes\!\mathbb I_A)(\rho_{SA})$ preserves positivity and unit trace.
+\end{corollary}
+
+\begin{proof}
+At each frozen micro-step, the coefficients $C(\Psi_{s_k};x,y)$ are scalar constants, so $\Phi_k$ is a linear CPTP map. Therefore $\Phi_k\!\otimes\!\mathbb I_A$ is CPTP for every $k$, and the product-integral limit inherits positivity and unit trace.
+\end{proof}
+
+\begin{proposition}[Emergent no–signaling]\label{prop:H-nosig}
+In the emergent geometric regime (where $N_\xi$-separation coincides with metric spacelike separation), let $\Sigma$ be a Cauchy slice and $A\subset\Sigma$ with complement $A^c$. If (i) $\gamma(x,y)=0$ outside $N_\xi$ and (ii) $[\hat T(x),\hat T(y)]=0$ for $N_\xi$-separated $(x,y)$, then
+\[
+\frac{d}{ds}\rho_A(s)\;=\;\Tr_{A^c}\big(\mathcal L_{N_\xi(A)}[\rho(s)]\big),
+\]
+i.e.\ $\rho_A$ depends only on operators supported in the $N_\xi$-envelope of $A$; $N_\xi$-separated operations on $A^c$ cannot instantaneously affect $\rho_A$.
+\end{proposition}
+
+\begin{remark}[Nonlinearity vs CP]
+Nonlinearity enters only through the \emph{scalar} rates $c_\alpha(s)$ (via $C(\Psi;x,y)$), not in the operator set $\{L_\alpha\}$. Freezing $c_\alpha$ yields GKSL steps; product–integral concatenation preserves CP/TP in the limit, avoiding pathologies such as loss of positivity or violation  of complete positivity that can occur in arbitrary nonlinear  master equations.
+\end{remark}
+\endgroup
+
+\section*{Appendix F — Consistency selection of the quadratic dissipator \texorpdfstring{$\mathcal D[\hat T^2]$}{D[T\textasciicircum 2]}}
+\addcontentsline{toc}{section}{Appendix F — Consistency selection of the quadratic dissipator}
+\label{app:QuadSelection}
+
+\begingroup
+\setcounter{equation}{0}
+\renewcommand\theequation{F.\arabic{equation}}
+\renewcommand{\theHequation}{F.\arabic{equation}}
+\setcounter{theorem}{0}
+\renewcommand\thetheorem{F.\arabic{theorem}}
+\renewcommand{\theHtheorem}{F.\arabic{theorem}}
+\setcounter{lemma}{0}
+\renewcommand\thelemma{F.\arabic{lemma}}
+\renewcommand{\theHlemma}{F.\arabic{lemma}}
+\setcounter{remark}{0}
+\renewcommand\theremark{F.\arabic{remark}}
+\renewcommand{\theHremark}{F.\arabic{remark}}
+\setcounter{proposition}{0}
+\renewcommand\theproposition{F.\arabic{proposition}}
+\renewcommand{\theHproposition}{F.\arabic{proposition}}
+
+\vspace{0.5cm}
+\noindent\textbf{Setting.}
+Local channels are even, real-analytic functionals of the time field,
+\[
+L_x=F(\hat T(x))=\sum_{m\ge1}a_{2m}\,\hat T^{2m}(x),\qquad
+L_{xy}=F(\hat T(x))-F(\hat T(y)),
+\]
+with evenness fixed by CPT symmetry at the level of the stochastic 
+unraveling. In the pre-geometric regime, individual eigentime collapses 
+must remain blind to the sign of the temporal label; otherwise the 
+fundamental events would already encode a $+t/-t$ orientation. The local 
+jump set is therefore restricted to the even class. The operator-level 
+WESH--Noether constraint (App.~D, Eq.~\eqref{eq:H-noether}) fixes the 
+commutant structure; here we address the admissible \emph{local} form in 
+the infrared.
+
+\subsection*{F.1 Constraints and selection principle}
+\vspace{0.2cm}
+
+\noindent\textbf{Constraints.}
+\begin{enumerate}[label=(\roman*),leftmargin=1.8cm,itemsep=0.2em]
+\item \textbf{CPT symmetry (unraveling level):} Time-reversal symmetry must hold for the individual eigentime collapses. Fundamental collapse channels act as sign-insensitive measures of temporal dispersion; an odd local jump would assign a built-in arrow of time ($+t/-t$ asymmetry) to the individual events. This restricts the local jump set to the even class.
+\item \textbf{WESH–Noether:} compatibility with \eqref{eq:H-noether} throughout the flow.
+\item \textbf{Collective stability (structural requirement):}
+the fixed-point balance of Lemma~\ref{lem:contraction} fixes $\alpha = 2$ in the collective-stability law $\tau_{\mathrm{coh}}(N)\propto N^\alpha$. Appendix~C summarizes the complementary large-$N$ scaling heuristics. This is a structural consistency requirement of the fixed-regime, not an empirical postulate.
+\end{enumerate}
+
+\begin{proposition}[Quadratic local normal form]\label{prop:I-quadratic}
+Under (i)–(iii), the admissible local normal form is uniquely quadratic:
+\[
+F(z)=a_2 z^2,\qquad \text{i.e.}\ \ \mathcal D[\hat T^2(x)].
+\]
+\end{proposition}
+
+\begin{proof}
+The requirement of CPT-evenness at the level of individual eigentime collapses implies that $F$ is even, hence the leading monomial can be written as $F(z) \sim z^{2n}$ with $n \ge 1$. As shown in Sec.~1 (Eq.~\eqref{eq:scaling-condition}), under the WESH normalization $\gamma \propto N^{-2}$ one has
+\[
+F(\hat T) \sim \hat T^{2n} \quad \Rightarrow \quad \tau_{\mathrm{coh}}(N) \propto N^{2n}.
+\]
+Imposing collective stability $\tau_{\mathrm{coh}}(N) \propto N^{2}$ fixes $n = 1$ uniquely, hence $F(z) = a_2 z^2$ and the local channel is $\mathcal{D}[\hat T^2(x)]$.
+\end{proof}
+
+\begin{remark}[Empirical validation]
+The $N^2$ scaling is used in the theory as a fixed-regime consistency condition (collective stability) selecting the quadratic channel. Experimentally, observing $\tau_{\mathrm{coh}} \propto N^2$ acts as a direct validation of this structural requirement and excludes higher even monomials in the collective regime.
+\end{remark}
+
+\begin{remark}[Convergence with effective field theory]
+The quadratic selection also follows from IR minimality: among CPT-even operators, the lowest-dimension monomial dominates at long wavelengths in the Wilsonian sense. This convergence of two independent arguments, structural (collective stability from bootstrap closure) and effective (Wilsonian IR dominance), strengthens confidence in the uniqueness of $\mathcal{D}[\hat T^2]$.
+\end{remark}
+
+\begin{remark}[Deeper algebraic foundation]
+The constraint-based selection above is complemented by a deeper algebraic argument developed in the main text (Remark~\ref{rem:algebraic-T2}): for $n \ge 2$, the bilocal jump operator $\hat T^{2n}(x) - \hat T^{2n}(y)$ factorizes as $[\hat T^2(x) - \hat T^2(y)] \cdot P_{n-1}$, and the polynomial prefactor $P_{n-1}$ contaminates the Lyapunov structure, the field equations, and the hidden-sector cancellation. Only $n = 1$ yields an \emph{irreducible} jump. This algebraic rigidity suggests that the quadratic structure may be a manifestation of a more fundamental process class, the Quantum Self-Interacting Poisson Structures (QSIPS), in which state-dependent dissipation rates are not perturbative corrections but constitutive features of the dynamics. A detailed investigation of this broader class is underway.
+\end{remark}
+
+\endgroup
+
+\section*{\centering References}
+\vspace{0.3cm}
+\begin{itemize}[leftmargin=0.5in, itemindent=-0.5in, label={}]
+
+\item Adesso, G., Girolami, D., \& Serafini, A. (2012). Measuring Gaussian quantum information and correlations using the Rényi entropy of order 2. \textit{Physical Review Letters}, 109(19), 190502. \url{https://doi.org/10.1103/PhysRevLett.109.190502}
+
+\item Ashtekar, A., Lewandowski, J., Marolf, D., Mourão, J., \& Thiemann, T. (1995). Quantization of diffeomorphism invariant theories of connections with local degrees of freedom. \textit{Journal of Mathematical Physics}, 36(11), 6456--6493. \url{https://doi.org/10.1063/1.531252}
+
+\item Anastopoulos, C., \& Hu, B. L. (2022). Gravitational decoherence: A thematic overview. \textit{AVS Quantum Science}, 4(1), 015602. \url{https://doi.org/10.1116/5.0077536}
+
+\item Arzano, M., D'Esposito, V., \& Gubitosi, G. (2023). Fundamental decoherence from quantum spacetime. \textit{Communications Physics}, 6, 242. \url{https://doi.org/10.1038/s42005-023-01159-3}
+
+\item Calcinari, A., \& Gielen, S. (2025). Relational dynamics and Page--Wootters formalism in group field theory. \textit{Quantum}, 9, 1610. \url{https://doi.org/10.22331/q-2025-01-27-1610}
+
+\item Chew, G. F. (1961). \textit{S-matrix theory of strong interactions}. W. A. Benjamin.
+
+\item Connes, A., \& Rovelli, C. (1994). Von Neumann algebra automorphisms and time-thermodynamics relation in generally covariant quantum theories. \textit{Classical and Quantum Gravity}, 11(12), 2899--2917. \url{https://doi.org/10.1088/0264-9381/11/12/007}
+
+\item Gaona-Reyes, J. L., Men\'endez-Pidal, L., Faizal, M., \& Carlesso, M. (2024). Spontaneous collapse models lead to the emergence of classicality of the Universe. \textit{Journal of High Energy Physics}, 2024(2), 193. \url{https://doi.org/10.1007/JHEP02(2024)193}
+
+\item Ghirardi, G. C., Rimini, A., \& Weber, T. (1986). Unified dynamics for microscopic and macroscopic systems. \textit{Physical Review D}, 34(2), 470--491. \url{https://doi.org/10.1103/PhysRevD.34.470}
+
+\item Gorini, V., Kossakowski, A., \& Sudarshan, E. C. G. (1976). Completely positive dynamical semigroups of $N$-level systems. \textit{Journal of Mathematical Physics}, 17(5), 821--825. \url{https://doi.org/10.1063/1.522979}
+
+\item Hawking, S. W., King, A. R., \& McCarthy, P. J. (1976). A new topology for curved space--time which incorporates the causal, differential, and conformal structures. \textit{Journal of Mathematical Physics}, 17(2), 174--181. \url{https://doi.org/10.1063/1.522874}
+
+\item Jacobson, T. (1995). Thermodynamics of spacetime: The Einstein equation of state. \textit{Physical Review Letters}, 75(7), 1260--1263. \url{https://doi.org/10.1103/PhysRevLett.75.1260}
+
+\item Jacobson, T. (2016). Entanglement equilibrium and the Einstein equation. \textit{Physical Review Letters}, 116(20), 201101. \url{https://doi.org/10.1103/PhysRevLett.116.201101}
+
+\item Karush, W. (1939). \textit{Minima of functions of several variables with inequalities as side constraints}. M.Sc. dissertation, University of Chicago.
+
+\item Kuhn, H. W., \& Tucker, A. W. (1951). Nonlinear programming. In \textit{Proceedings of the Second Berkeley Symposium on Mathematical Statistics and Probability} (pp.\ 481--492). University of California Press.
+
+\item Lindblad, G. (1976). On the generators of quantum dynamical semigroups. \textit{Communications in Mathematical Physics}, 48(2), 119--130. \url{https://doi.org/10.1007/BF01608499}
+
+\item Malament, D. B. (1977). The class of continuous timelike curves determines the topology of spacetime. \textit{Journal of Mathematical Physics}, 18(7), 1399--1404. \url{https://doi.org/10.1063/1.523436}
+
+\item Maldacena, J. (1999). The large-$N$ limit of superconformal field theories and supergravity. \textit{International Journal of Theoretical Physics}, 38, 1113--1133. \url{https://doi.org/10.1023/A:1026654312961}
+
+\item Maldacena, J., \& Susskind, L. (2013). Cool horizons for entangled black holes. \textit{Fortschritte der Physik}, 61(9), 781--811. \url{https://doi.org/10.1002/prop.201300020}
+
+\item McCauley, G., Cruikshank, B., Bondar, D. I., \& Jacobs, K. (2020). Accurate Lindblad-form master equation for weakly damped quantum systems across all regimes. \textit{npj Quantum Information}, 6(1), 74. \url{https://doi.org/10.1038/s41534-020-00299-6}
+
+\item Page, D. N., \& Wootters, W. K. (1983). Evolution without evolution: Dynamics described by stationary observables. \textit{Physical Review D}, 27(12), 2885--2892. \url{https://doi.org/10.1103/PhysRevD.27.2885}
+
+\item Parisi, G., \& Wu, Y.-S. (1981). Perturbation theory without gauge fixing. \textit{Scientia Sinica}, 24(4), 483--496. \url{https://doi.org/10.1360/ya1981-24-4-483}
+
+\item Pearle, P. (1989). Combining stochastic dynamical state-vector reduction with spontaneous localization. \textit{Physical Review A}, 39(5), 2277--2289. \url{https://doi.org/10.1103/PhysRevA.39.2277}
+
+\item Penrose, R. (1996). On gravity's role in quantum state reduction. \textit{General Relativity and Gravitation}, 28(5), 581--600. \url{https://doi.org/10.1007/BF02105068}
+
+\item Rattazzi, R., Rychkov, V. S., Tonni, E., \& Vichi, A. (2008). Bounding scalar operator dimensions in 4D CFT. \textit{Journal of High Energy Physics}, 2008(12), 031. \url{https://doi.org/10.1088/1126-6708/2008/12/031}
+
+\item Rivas, Á., \& Huelga, S. F. (2012). \textit{Open quantum systems: An introduction}. Springer. \url{https://doi.org/10.1007/978-3-642-23354-8}
+
+\item Ryu, S., \& Takayanagi, T. (2006). Holographic derivation of entanglement entropy from the anti--de Sitter space/conformal field theory correspondence. \textit{Physical Review Letters}, 96(18), 181602. \url{https://doi.org/10.1103/PhysRevLett.96.181602}
+
+\item Takesaki, M. (1970). \textit{Tomita's theory of modular Hilbert algebras and its applications}. Lecture Notes in Mathematics, Vol. 128. Springer. \url{https://doi.org/10.1007/BFb0065832}
+
+\item Van Raamsdonk, M. (2010). Building up spacetime with quantum entanglement. \textit{General Relativity and Gravitation}, 42(10), 2323--2329. \url{https://doi.org/10.1007/s10714-010-1034-0}
+
+\item Verlinde, E. (2011). On the origin of gravity and the laws of Newton. \textit{Journal of High Energy Physics}, 2011(4), 029. \url{https://doi.org/10.1007/JHEP04(2011)029}
+
+\end{itemize}
+
+\end{document}
