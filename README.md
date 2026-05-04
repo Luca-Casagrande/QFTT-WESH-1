@@ -1,10 +1,10 @@
-# A DISSIPATIVE TIME-FIELD COMPLETION OF WHEELER--DEWITT DYNAMICS - The Weak Entanglement Symmetry Hypothesis
+# WESH — The Weak Entanglement Symmetry Hypothesis
 
-**Core paper and experimental data** for the framework:
+**Core paper and experimental data** for:
 
-> **"Quantum Field Theory of Time — The Weak Entanglement Symmetry Hypothesis" — L. Casagrande (2026).**
+> **"A Dissipative Time-Field Completion of Wheeler–DeWitt Dynamics: The Weak Entanglement Symmetry Hypothesis" — L. Casagrande (2026).**
 
-[Read the paper](paper/QFTT_WESH_core.pdf) · [N² scaling](experiments/3.3-3.4/fig_3-3_collision.png) · [cos²θ angular law](experiments/3.5/fig_3-5_angular_scaling.png)
+[Read the paper](paper/WESH.pdf) · [N² scaling](experiments/3.3-3.4/fig_3-3_collision.png) · [cos²θ angular law](experiments/3.5/fig_3-5_angular_scaling.png)
 
 This work addresses the frozen-time problem of canonical quantum gravity. Physical time is promoted to a local quantum field operator T̂(x), subject to superposition and objective collapse, with dynamics constructed from first principles. An endogenously dissipative master equation in an auxiliary, non-observable label *s* generates physical time through
 
@@ -30,7 +30,7 @@ The construction yields two quantitative predictions:
 
 ---
 
-## Experimental tests (Section 3)
+## Numerical and hardware consistency tests
 
 Both predictions have been tested through classical simulations and quantum hardware experiments.
 
@@ -53,8 +53,8 @@ Experiments on **IBM Eagle** (127-qubit) and **Rigetti Ankaa-3** (82-qubit), tot
 
     QFTT-WESH-1/
     ├── paper/
-    │   ├── main.tex                 # LaTeX source (targeting CQG)
-    │   └── QFTT_WESH_core.pdf      # Compiled paper
+    │   ├── WESH.tex                 # LaTeX source
+    │   └── WESH.pdf                 # Compiled paper
     ├── figures/
     │   ├── Picture1.png  …  Picture13.png
     ├── experiments/
@@ -96,15 +96,15 @@ Requires Python 3.x with `numpy`, `pandas`, `matplotlib`, `scipy`.
 
 ## Acknowledgments
 
-While the conceptual framework, methodology, and research direction remained with the author throughout, the work also relied on artificial intelligence tools in a cross-inferencing multi-AI workflow. The primary tools employed were those of OpenAI, Anthropic, and Google.
+While the conceptual framework, methodology, and research direction remained with the author throughout, the work also relied on artificial intelligence tools in a cross-inferencing multi-AI workflow.
 
 ---
 
 ## Citation
 
-    @article{Casagrande2026QFTT,
+    @article{Casagrande2026WESH,
       author  = {Casagrande, Luca},
-      title   = {Quantum Field Theory of Time: The Weak Entanglement Symmetry Hypothesis},
+      title   = {A Dissipative Time-Field Completion of Wheeler--DeWitt Dynamics: The Weak Entanglement Symmetry Hypothesis},
       year    = {2026}
     }
 
@@ -112,4 +112,4 @@ While the conceptual framework, methodology, and research direction remained wit
 
 ## License
 
-Code in this repository is released under the [MIT License](https://opensource.org/licenses/MIT). Paper, figures, and datasets are released under the terms specified in the corresponding Zenodo record.
+Code in this repository is released under the **MIT License**. Paper, figures, and datasets are released under the terms specified in the corresponding Zenodo record.
