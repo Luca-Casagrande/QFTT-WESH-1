@@ -1,4 +1,4 @@
-# QFTT-WESH
+# A DISSIPATIVE TIME-FIELD COMPLETION OF WHEELER--DEWITT DYNAMICS - The Weak Entanglement Symmetry Hypothesis
 
 **Core paper and experimental data** for the framework:
 
