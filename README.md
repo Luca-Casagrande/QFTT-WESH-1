@@ -1,10 +1,9 @@
 # WESH — The Weak Entanglement Symmetry Hypothesis
 
 **Core paper and experimental data** for:
-
 > **"A Dissipative Time-Field Completion of Wheeler–DeWitt Dynamics: The Weak Entanglement Symmetry Hypothesis" — L. Casagrande (2026).**
 
-[Read the paper](paper/WESH.pdf) · [N² scaling](experiments/3.3-3.4/fig_3-3_collision.png) · [cos²θ angular law](experiments/3.5/fig_3-5_angular_scaling.png)
+[Read the paper](https://github.com/Luca-Casagrande/QFTT-WESH-1/blob/main/paper/WESH.pdf) · [N² scaling](/Luca-Casagrande/QFTT-WESH-1/blob/main/experiments/3.3-3.4/fig_3-3_collision.png) · [cos²θ angular law](/Luca-Casagrande/QFTT-WESH-1/blob/main/experiments/3.5/fig_3-5_angular_scaling.png)
 
 This work addresses the frozen-time problem of canonical quantum gravity. Physical time is promoted to a local quantum field operator T̂(x), subject to superposition and objective collapse, with dynamics constructed from first principles. An endogenously dissipative master equation in an auxiliary, non-observable label *s* generates physical time through
 
@@ -54,10 +53,11 @@ Experiments on **IBM Eagle** (127-qubit) and **Rigetti Ankaa-3** (82-qubit), tot
     QFTT-WESH-1/
     ├── paper/
     │   ├── WESH.tex                 # LaTeX source
-    │   └── WESH.pdf                 # Compiled paper
-    ├── figures/
-    │   ├── Picture1.png  …  Picture13.png
-    ├── experiments/
+    │   ├── WESH.pdf                 # Compiled paper
+    │   └── figures/                 # Conceptual diagrams referenced in the paper
+    │       ├── Picture2.png         # Constraint analysis: WDW → WESH
+    │       └── Picture13.png        # (additional conceptual diagram)
+    ├── experiments/                 # Numerical plots and data live here, per section
     │   ├── 3.1/                     # WESH vs standard decoherence (CPU)
     │   ├── 3.2/                     # Collective stability scaling
     │   ├── 3.3-3.4/                 # Collision model vs local baseline
@@ -65,14 +65,17 @@ Experiments on **IBM Eagle** (127-qubit) and **Rigetti Ankaa-3** (82-qubit), tot
     │   ├── 3.6/                     # Fake-GHZ gate-matched control
     │   ├── 3.7-3.8/                 # GHZ vs PRODUCT distributions (21σ)
     │   └── 3.9/                     # Cross-platform — Rigetti Ankaa-3
+    ├── LICENSE
     └── README.md
+
+> **Note.** `paper/figures/` contains conceptual diagrams referenced in the manuscript. All numerical plots and the underlying datasets are stored within the corresponding `experiments/3.X/` folders.
 
 ---
 
 ## Experiments
 
 | Folder | Figure(s) | Description |
-|:-------|:----------|:------------|
+| --- | --- | --- |
 | `3.1/` | Fig. 3.1 | WESH vs standard local decoherence: purity and coherence scaling (CPU simulations, N = 3–9) |
 | `3.2/` | Fig. 3.2 | Robustness of collective protection under different noise channels and coupling profiles (N = 2–16) |
 | `3.3-3.4/` | Figs. 3.3–3.4 | Pre-asymptotic rate scaling: collision model (α ≈ −1.80) vs local baseline (α = −1.00) |
