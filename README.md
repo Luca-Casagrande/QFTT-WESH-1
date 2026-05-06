@@ -56,7 +56,7 @@ Experiments on **IBM Eagle** (127-qubit) and **Rigetti Ankaa-3** (82-qubit), tot
     │   ├── WESH.pdf                 # Compiled paper
     │   └── figures/                 # Conceptual diagrams referenced in the paper
     │       ├── Picture2.png         # Constraint analysis: WDW → WESH
-    │       └── Picture13.png        # (additional conceptual diagram)
+    │       └── Picture13.png        # Geometric projection of the cos²θ angular law on heavy-hex pair orientations
     ├── experiments/                 # Numerical plots and data live here, per section
     │   ├── 3.1/                     # WESH vs standard decoherence (CPU)
     │   ├── 3.2/                     # Collective stability scaling
