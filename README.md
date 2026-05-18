@@ -20,6 +20,35 @@ The framework has **no free dimensionless parameters**.
 
 ---
 
+## Falsifiable signatures
+
+The construction yields two quantitative predictions:
+
+- **Collective stability:** τ_coh ∝ N², a quadratic scaling of coherence time with system size under inverse bilocal couplings, in contrast with standard decoherence where τ_coh remains flat or degrades with N.
+
+- **Angular law:** Γ(θ) = Γ̄(1 + ε cos²θ), a state-dependent cos²θ modulation of the parity decay rate, with factorized state/geometry contributions and a predicted **sign reversal** between GHZ (ε > 0) and W-state (ε < 0) preparations.
+
+---
+
+## Numerical and hardware consistency tests
+
+Both predictions have been tested through classical simulations and quantum hardware experiments.
+
+### Numerical evidence
+
+Pre-asymptotic collision-model simulations (N = 2–16), used as a reduced surrogate for the collective-stability sector of the framework, yield an effective scaling γ(N) ∝ N^{−1.804}, consistent with an approach towards the predicted N^{−2} behaviour. A matched local baseline returns α = −1.00, validating the sensitivity of the extraction method.
+
+### Hardware evidence (IBM Eagle + Rigetti Ankaa-3)
+
+Experiments on **IBM Eagle** (127-qubit) and **Rigetti Ankaa-3** (82-qubit), totaling over **3 × 10⁶ shots**, show trends consistent with the predicted signatures:
+
+- cos²θ angular dependence of the decay rate (R² = 0.947 at N = 3),
+- W-state anti-modulation consistent with state-dependent behaviour,
+- a gate-matched GHZ vs Fake-GHZ control separating entanglement from circuit overhead (Γ_PROD/Γ_GHZ ≈ 2.6),
+- cross-platform countercheck across distinct hardware stacks.
+
+---
+
 ## Lean 4 formalization
 
 The folder [`lean/`](./lean/) contains a Lean 4 / Mathlib formalization of the **algebraic core of Section 1** of the submitted WESH manuscript.
@@ -57,35 +86,6 @@ lake build
 ```
 
 The Lean toolchain is specified in [`lean/lean-toolchain`](./lean/lean-toolchain).
-
----
-
-## Falsifiable signatures
-
-The construction yields two quantitative predictions:
-
-- **Collective stability:** τ_coh ∝ N², a quadratic scaling of coherence time with system size under inverse bilocal couplings, in contrast with standard decoherence where τ_coh remains flat or degrades with N.
-
-- **Angular law:** Γ(θ) = Γ̄(1 + ε cos²θ), a state-dependent cos²θ modulation of the parity decay rate, with factorized state/geometry contributions and a predicted **sign reversal** between GHZ (ε > 0) and W-state (ε < 0) preparations.
-
----
-
-## Numerical and hardware consistency tests
-
-Both predictions have been tested through classical simulations and quantum hardware experiments.
-
-### Numerical evidence
-
-Pre-asymptotic collision-model simulations (N = 2–16), used as a reduced surrogate for the collective-stability sector of the framework, yield an effective scaling γ(N) ∝ N^{−1.804}, consistent with an approach towards the predicted N^{−2} behaviour. A matched local baseline returns α = −1.00, validating the sensitivity of the extraction method.
-
-### Hardware evidence (IBM Eagle + Rigetti Ankaa-3)
-
-Experiments on **IBM Eagle** (127-qubit) and **Rigetti Ankaa-3** (82-qubit), totaling over **3 × 10⁶ shots**, show trends consistent with the predicted signatures:
-
-- cos²θ angular dependence of the decay rate (R² = 0.947 at N = 3),
-- W-state anti-modulation consistent with state-dependent behaviour,
-- a gate-matched GHZ vs Fake-GHZ control separating entanglement from circuit overhead (Γ_PROD/Γ_GHZ ≈ 2.6),
-- cross-platform countercheck across distinct hardware stacks.
 
 ---
 
