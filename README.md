@@ -1,21 +1,62 @@
 # WESH — The Weak Entanglement Symmetry Hypothesis
 
-**Core paper and experimental data** for:
+**Core paper, experimental data, and Lean 4 formalization** for:
+
 > **"A Dissipative Time-Field Completion of Wheeler–DeWitt Dynamics: The Weak Entanglement Symmetry Hypothesis" — L. Casagrande (2026).**
 
-[Read the paper](https://github.com/Luca-Casagrande/QFTT-WESH-1/blob/main/paper/WESH.pdf) · [N² scaling](/Luca-Casagrande/QFTT-WESH-1/blob/main/experiments/3.3-3.4/fig_3-3_collision.png) · [cos²θ angular law](/Luca-Casagrande/QFTT-WESH-1/blob/main/experiments/3.5/fig_3-5_angular_scaling.png)
+[Read the paper](./paper/WESH.pdf) · [N² scaling](./experiments/3.3-3.4/fig_3-3_collision.png) · [cos²θ angular law](./experiments/3.5/fig_3-5_angular_scaling.png)
 
 This work addresses the frozen-time problem of canonical quantum gravity. Physical time is promoted to a local quantum field operator T̂(x), subject to superposition and objective collapse, with dynamics constructed from first principles. An endogenously dissipative master equation in an auxiliary, non-observable label *s* generates physical time through
 
     dt/ds = Γ[ρ] ≥ 0.
 
-Complete positivity, CPT symmetry at the unraveling level, a pre-geometric WESH–Noether conservation principle, collective N² stability, and finite-range pre-geometric locality single out a unique GKSL structure with:
+Complete positivity, CPT symmetry at the unraveling level, a pre-geometric WESH–Noether conservation principle, collective N² stability, and finite-range pre-geometric locality single out a GKSL structure with:
 
 - a **quadratic local dissipator** D[T̂²(x)],
 - a **bilocal difference channel** L_xy = T̂²(x) − T̂²(y), gated by a Rényi-2 entanglement functional,
 - a **finite-range kernel** γ(x,y) defined via the symmetric pre-geometric proximity relation N_ξ, without background metric input.
 
 The framework has **no free dimensionless parameters**.
+
+---
+
+## Lean 4 formalization
+
+The folder [`lean/`](./lean/) contains a Lean 4 / Mathlib formalization of the **algebraic core of Section 1** of the submitted WESH manuscript.
+
+The formalization covers:
+
+- pre-geometric finite-range N_ξ locality;
+- the WESH local and bilocal Lindblad jump structure;
+- WESH–Noether algebraic conservation;
+- quadratic dissipator selection from unraveling-level CPT and collective N² stability;
+- the unnormalized Rényi-2 entanglement gate;
+- eigentime production positivity and activation;
+- the finite-memory derivation of α = 2;
+- the formal G → 0 decoupling of dissipative rates.
+
+It does **not** claim to mechanize every analytic, probabilistic, or product-integral result from the appendices. In particular, the nonlinear CP/TP product-integral theorem and the full LLN/martingale construction are outside the scope of `Section1.lean`.
+
+Lean build files:
+
+```text
+lean/
+├── lakefile.toml
+├── lean-toolchain
+├── WESH.lean
+└── WESH/
+    └── Section1.lean
+```
+
+Build from the `lean/` directory:
+
+```bash
+cd lean
+lake update
+lake build
+```
+
+The Lean toolchain is specified in [`lean/lean-toolchain`](./lean/lean-toolchain).
 
 ---
 
@@ -50,25 +91,33 @@ Experiments on **IBM Eagle** (127-qubit) and **Rigetti Ankaa-3** (82-qubit), tot
 
 ## Repository layout
 
-    QFTT-WESH-1/
-    ├── paper/
-    │   ├── WESH.tex                 # LaTeX source
-    │   ├── WESH.pdf                 # Compiled paper
-    │   └── figures/                 # Conceptual diagrams referenced in the paper
-    │       ├── Picture2.png         # Constraint analysis: WDW → WESH
-    │       └── Picture13.png        # Geometric projection of the cos²θ angular law on heavy-hex pair orientations
-    ├── experiments/                 # Numerical plots and data live here, per section
-    │   ├── 3.1/                     # WESH vs standard decoherence (CPU)
-    │   ├── 3.2/                     # Collective stability scaling
-    │   ├── 3.3-3.4/                 # Collision model vs local baseline
-    │   ├── 3.5/                     # Angular law — IBM Eagle
-    │   ├── 3.6/                     # Fake-GHZ gate-matched control
-    │   ├── 3.7-3.8/                 # GHZ vs PRODUCT distributions (21σ)
-    │   └── 3.9/                     # Cross-platform — Rigetti Ankaa-3
-    ├── LICENSE
-    └── README.md
+```text
+QFTT-WESH-1/
+├── paper/
+│   ├── WESH.tex                 # LaTeX source
+│   ├── WESH.pdf                 # Compiled paper
+│   └── figures/                 # Conceptual diagrams referenced in the paper
+│       ├── Picture2.png         # Constraint analysis: WDW → WESH
+│       └── Picture13.png        # Geometric projection of the cos²θ angular law
+├── experiments/                 # Numerical plots and data live here, per section
+│   ├── 3.1/                     # WESH vs standard decoherence (CPU)
+│   ├── 3.2/                     # Collective stability scaling
+│   ├── 3.3-3.4/                 # Collision model vs local baseline
+│   ├── 3.5/                     # Angular law — IBM Eagle
+│   ├── 3.6/                     # Fake-GHZ gate-matched control
+│   ├── 3.7-3.8/                 # GHZ vs PRODUCT distributions (21σ)
+│   └── 3.9/                     # Cross-platform — Rigetti Ankaa-3
+├── lean/                        # Lean 4 formalization of Section 1 algebraic core
+│   ├── lakefile.toml
+│   ├── lean-toolchain
+│   ├── WESH.lean
+│   └── WESH/
+│       └── Section1.lean
+├── LICENSE
+└── README.md
+```
 
-> **Note.** `paper/figures/` contains conceptual diagrams referenced in the manuscript. All numerical plots and the underlying datasets are stored within the corresponding `experiments/3.X/` folders.
+> **Note.** `paper/figures/` contains conceptual diagrams referenced in the manuscript. All numerical plots and the underlying datasets are stored within the corresponding `experiments/3.X/` folders. The Lean formalization is kept in `lean/` as a separate buildable artifact.
 
 ---
 
@@ -90,10 +139,24 @@ Each folder is self-contained: running the analysis script regenerates the corre
 
 ## Reproducing figures
 
-    cd experiments/3.5/
-    python analyze_3.5_angular_scaling.py
+```bash
+cd experiments/3.5/
+python analyze_3.5_angular_scaling.py
+```
 
 Requires Python 3.x with `numpy`, `pandas`, `matplotlib`, `scipy`.
+
+---
+
+## Reproducing the Lean formalization
+
+```bash
+cd lean
+lake update
+lake build
+```
+
+Requires Lean 4 and Lake. The required toolchain is specified in `lean/lean-toolchain`.
 
 ---
 
@@ -105,11 +168,13 @@ While the conceptual framework, methodology, and research direction remained wit
 
 ## Citation
 
-    @article{Casagrande2026WESH,
-      author  = {Casagrande, Luca},
-      title   = {A Dissipative Time-Field Completion of Wheeler--DeWitt Dynamics: The Weak Entanglement Symmetry Hypothesis},
-      year    = {2026}
-    }
+```bibtex
+@article{Casagrande2026WESH,
+  author  = {Casagrande, Luca},
+  title   = {A Dissipative Time-Field Completion of Wheeler--DeWitt Dynamics: The Weak Entanglement Symmetry Hypothesis},
+  year    = {2026}
+}
+```
 
 ---
 
