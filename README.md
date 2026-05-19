@@ -168,7 +168,7 @@ While the conceptual framework, methodology, and research direction remained wit
 @article{Casagrande2026WESH,
   author  = {Casagrande, Luca},
   title   = {A Dissipative Time-Field Completion of Wheeler--DeWitt Dynamics: The Weak Entanglement Symmetry Hypothesis},
-  year    = {2026}
+  year    = {2026},
   doi     = {10.5281/zenodo.19542742}
 }
 ```
