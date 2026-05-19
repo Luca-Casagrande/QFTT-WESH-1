@@ -72,9 +72,7 @@ Lean build files:
 lean/
 ├── lakefile.toml
 ├── lean-toolchain
-├── WESH.lean
-└── WESH/
-    └── Section1.lean
+├── Section1.lean
 ```
 
 Build from the `lean/` directory:
