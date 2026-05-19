@@ -108,9 +108,7 @@ QFTT-WESH-1/
 ├── lean/                        # Lean 4 formalization of Section 1 algebraic core
 │   ├── lakefile.toml
 │   ├── lean-toolchain
-│   ├── WESH.lean
-│   └── WESH/
-│       └── Section1.lean
+│   └── Section1.lean   
 ├── LICENSE
 └── README.md
 ```
