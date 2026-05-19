@@ -1,5 +1,5 @@
 name = "wesh-section1"
-defaultTargets = ["WESH"]
+defaultTargets = ["Section1"]
 
 [[require]]
 name = "mathlib"
@@ -7,4 +7,4 @@ scope = "leanprover-community"
 version = "git#v4.16.0"
 
 [[lean_lib]]
-name = "WESH"
+name = "Section1"
